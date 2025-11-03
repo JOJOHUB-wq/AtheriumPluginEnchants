@@ -1,0 +1,22 @@
+name: AtheriumEnchants
+version: 1.0
+main: ua.atherium.AtheriumEnchants
+api-version: 1.17
+author: [Atherium]
+description: Custom Enchantments Plugin
+website: https://atherium.ua/
+
+commands:
+  ae:
+    description: Main command for AtheriumEnchants.
+    usage: /<command> [subcommand]
+    aliases: [enchants, atheriumenchants]
+    permission: atheriumenchants.command.ae
+
+permissions:
+  atheriumenchants.command.ae:
+    description: Allows usage of the main /ae command.
+    default: op
+  atheriumenchants.admin:
+    description: Grants administrative access to all AtheriumEnchants commands.
+    default: op

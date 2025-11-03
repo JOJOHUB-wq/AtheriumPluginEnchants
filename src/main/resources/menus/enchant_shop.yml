@@ -1,0 +1,14 @@
+# Menu Configuration
+
+title: "Магазин Книги"
+size: 27
+
+items:
+  vampirism_book:
+    material: "ENCHANTED_BOOK"
+    slot: 10
+    name: "&aКнига Вампиризма"
+    lore:
+      - "&7Нажмите, чтобы получить книгу"
+      - "&7Вампиризма I уровня."
+    command: "ae get vampirism 1"

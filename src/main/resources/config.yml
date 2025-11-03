@@ -1,0 +1,12 @@
+# AtheriumEnchants Configuration
+
+# Global settings
+debug: false
+
+# Enchantment settings
+enchantments:
+  vampirism:
+    enabled: true
+    max_level: 3
+    cooldown: 0
+    chance: 0.1
