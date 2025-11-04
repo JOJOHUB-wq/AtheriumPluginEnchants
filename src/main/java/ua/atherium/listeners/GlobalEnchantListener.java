@@ -71,14 +71,15 @@ public class GlobalEnchantListener implements Listener {
         }
 
         // Finalize drops
+        List<ItemStack> finalDrops = (List<ItemStack>) context.get("drops");
+        event.setDropItems(false); // Always cancel default drops and handle them manually
+
         if (context.containsKey("prevent_default_drops") && (boolean) context.get("prevent_default_drops")) {
-            event.setDropItems(false); // Stop original drops
-            if (!masterDrops.isEmpty()) {
-                applySynergy(masterDrops, tool, player, event.getBlock().getLocation());
+             if (!finalDrops.isEmpty()) {
+                // Telekinesis or other effects already handled the drops
             }
         } else {
-            event.getDrops().clear();
-            event.getDrops().addAll(masterDrops);
+            dropItems(event.getBlock().getLocation(), finalDrops);
         }
     }
 

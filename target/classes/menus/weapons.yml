@@ -1,0 +1,84 @@
+items:
+
+  --- Навигация (копия из main.yml) ---
+  sword_enchants:
+    display_name: "&#f89d57Зачарования для оружия"
+    lore:
+      - ""
+      - "&fВы находитесь в этом разделе"
+    material: NETHERITE_SWORD
+    item_flags: [ HIDE_ATTRIBUTES ]
+    enchantments: # Подсветка активной вкладки
+      - "unbreaking;1"
+  pickaxe_enchants:
+    display_name: "&#f89d57Зачарования для инструментов"
+    lore: [ "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы перейти" ]
+    material: NETHERITE_PICKAXE
+    item_flags: [ HIDE_ATTRIBUTES ]
+    click_actions: [ "[AE_OPEN] tools" ]
+  armor_enchants:
+    display_name: "&#f89d57Зачарования для брони"
+    lore: [ "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы перейти" ]
+    material: NETHERITE_CHESTPLATE
+    item_flags: [ HIDE_ATTRIBUTES ]
+    click_actions: [ "[AE_OPEN] armor" ]
+
+  --- Зачарования (Загружаются динамически) ---
+  # Java-код должен взять 'enchant_key', найти его в enchants.yml
+  # и сгенерировать display_name и lore автоматически.
+  en1:
+    material: ENCHANTED_BOOK
+    enchant_key: "abrasion" # Окисление
+  en2:
+    material: ENCHANTED_BOOK
+    enchant_key: "vampirizm" # Вампиризм
+  en3:
+    material: ENCHANTED_BOOK
+    enchant_key: "toxic" # Отравление
+  en4:
+    material: ENCHANTED_BOOK
+    enchant_key: "identify" # Детекция
+  en5:
+    material: ENCHANTED_BOOK
+    enchant_key: "wisdom" # Опытный (также на инструментах)
+  en6:
+    material: ENCHANTED_BOOK
+    enchant_key: "explosive" # Подрывник
+  en7:
+    material: ENCHANTED_BOOK
+    enchant_key: "sniper" # Снайпер
+
+  --- Оформление ---
+  glass:
+    display_name: "&7"
+    material: RED_STAINED_GLASS_PANE
+  leave:
+    display_name: "&7Назад"
+    lore:
+      - "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы вернуться назад"
+    material: SPECTRAL_ARROW
+    click_actions:
+      - "[AE_OPEN] main"
+
+# Анимация
+animation:
+  tick: 1
+  opcodes: [ "set: glass 0,8" ]
+  "tick-2": [ "set: glass 9,17" ]
+  "tick-3": [ "set: glass 36,44" ]
+  "tick-4": [ "set: glass 45,46" ]
+  "tick-5": [ "set: glass 52,53" ]
+  "tick-6": [ "set: sword_enchants 12" ]
+  "tick-7": [ "set: pickaxe_enchants 13" ]
+  "tick-8": [ "set: armor_enchants 14" ]
+
+  --- Слоты для книг ---
+  "tick-9": [ "set: en1 20" ]
+  "tick-10": [ "set: en2 21" ]
+  "tick-11": [ "set: en3 22" ]
+  "tick-12": [ "set: en4 23" ]
+  "tick-13": [ "set: en5 24" ]
+  "tick-14": [ "set: en6 30" ]
+  "tick-15": [ "set: en7 31" ]
+  "tick-18": [ "set: leave 49" ]
+  "tick-19": [ "set: glass 1,7" ]

@@ -1,0 +1,388 @@
+# --- ЗАЧАРОВАНИЯ ДЛЯ ИНСТРУМЕНТОВ ---
+
+blast_mining:
+  enabled: true
+  display_name: "&#f89d57Бульдозер"
+  description:
+    - "&fЛомает блоки в области 3x3."
+    - "&7(На Уровне II: 3x3x3)"
+  rarity: "LEGENDARY"
+  max_level: 2
+  conflicts: [ "timber", "silk_touch" ]
+  applies_to: [ PICKAXE, SHOVEL, AXE ]
+  enchanting_table:
+    enabled: true
+    chance_weight: 1
+  trigger: "BLOCK_BREAK"
+  effect:
+    type: "TRENCH"
+    level-1:
+      shape: "3x1x3" # Форма (ШxВxД)
+      cost: 1 # Доп. расход прочности за каждый доп. блок
+    level-2:
+      shape: "3x3x3"
+      cost: 1
+    # Список блоков, которые можно ломать этим чаром
+    tool-targets:
+      PICKAXE:
+        - STONE
+        - COBBLESTONE
+        - DEEPSLATE
+        - NETHERRACK
+        - END_STONE
+        - IRON_ORE
+        - GOLD_ORE
+        - COPPER_ORE
+        - DIAMOND_ORE
+        - EMERALD_ORE
+        - LAPIS_ORE
+        - REDSTONE_ORE
+        - COAL_ORE
+        - NETHER_GOLD_ORE
+        - NETHER_QUARTZ_ORE
+        - ANCIENT_DEBRIS
+      SHOVEL:
+        - DIRT
+        - GRASS_BLOCK
+        - SAND
+        - GRAVEL
+        - SOUL_SAND
+        - SOUL_SOIL
+        - CLAY
+      AXE:
+        - NETHER_WART_BLOCK
+        - WARPED_WART_BLOCK
+        - SHROOMLIGHT
+        - MUSHROOM_STEM
+timber:
+  enabled: true
+  display_name: "&#29FF1DЛесоруб"
+  description:
+    - "&fСрубает все дерево."
+    - "&7(На Уровне II: безлимитно)"
+  rarity: "RARE"
+  max_level: 2
+  conflicts: [ "blast_mining" ]
+  applies_to: [ AXE ]
+  enchanting_table:
+    enabled: true
+    chance_weight: 5
+  trigger: "BLOCK_BREAK"
+  effect:
+    type: "TIMBER"
+    level-1:
+      max-blocks: 40 # Макс. блоков для сруба
+      animation-ticks-per-block: 2 # Анимация: 2 тика на блок
+    level-2:
+      max-blocks: -1 # -1 = безлимит
+      animation-ticks-per-block: 1
+infernal_touch:
+  enabled: true
+  display_name: "&#EDFF43Авто-плавка"
+  description:
+    - "&fАвтоматически переплавляет добытые блоки."
+  rarity: "LEGENDARY"
+  max_level: 1
+  conflicts: [ "silk_touch" ]
+  applies_to: [ PICKAXE, SHOVEL, AXE ]
+  enchanting_table:
+    enabled: true
+    chance_weight: 2
+  trigger: "BLOCK_BREAK"
+  effect:
+    type: "SMELT"
+    level-1:
+      particle_effect: "FLAME"
+telekinesis:
+  enabled: true
+  display_name: "&#E01DFFМагнит"
+  description:
+    - "&fПритягивает дроп с блоков в инвентарь."
+  rarity: "EPIC"
+  max_level: 1
+  conflicts: []
+  applies_to: [ PICKAXE, SHOVEL, AXE, SWORD ] # Добавлен меч для мобов
+  enchanting_table:
+    enabled: true
+    chance_weight: 3
+  trigger: "BLOCK_BREAK, ATTACK_ENTITY"
+  effect:
+    type: "TELEKINESIS"
+wisdom:
+  enabled: true
+  display_name: "&#886464Опытный"
+  description:
+    - "&fУвеличивает получаемый опыт."
+  rarity: "UNCOMMON"
+  max_level: 3
+  conflicts: []
+  applies_to: [ PICKAXE, SHOVEL, AXE, SWORD ]
+  enchanting_table:
+    enabled: true
+    chance_weight: 8
+  trigger: "BLOCK_BREAK, ATTACK_ENTITY"
+  effect:
+    type: "EXP_MULTIPLY"
+    level-1:
+      multiplier: 1.5
+    level-2:
+      multiplier: 2.0
+    level-3:
+      multiplier: 2.5
+bog_touch:
+  enabled: true
+  display_name: "&#f89d57Божье касание"
+  description:
+    - "&fПозволяет сломать спавнер золотой киркой."
+  rarity: "LEGENDARY"
+  max_level: 1
+  conflicts: [ silk_touch, blast_mining, infernal_touch ]
+  applies_to: [ GOLDEN_PICKAXE ]
+  enchanting_table:
+    enabled: false
+  trigger: "BLOCK_BREAK"
+  effect:
+    type: "SPAWNER_BREAK"
+    level-1:
+      condition: "%block type% = SPAWNER"
+      durability-cost: 100
+pinger:
+  enabled: true
+  display_name: "&7Пингер"
+  description:
+    - "&fПредупреждает, когда предмет почти сломан."
+  rarity: "COMMON"
+  max_level: 1
+  conflicts: []
+  applies_to: [ PICKAXE, SHOVEL, AXE, SWORD, BOW, CROSSBOW, ARMOR, BOOTS ]
+  enchanting_table:
+    enabled: true
+    chance_weight: 10
+  trigger: "BLOCK_BREAK, ATTACK_ENTITY, DEFENSE_PLAYER, BOW_SHOOT"
+  effect:
+    type: "DURABILITY_PING"
+    level-1:
+      threshold: 50 # Кол-во прочности
+      message: "&cВнимание! Ваш предмет в руке почти сломан!"
+
+# --- ЗАЧАРОВАНИЯ ДЛЯ ОРУЖИЯ (МЕЧ, ЛУК) ---
+
+vampirizm:
+  enabled: true
+  display_name: "&#29FF1DВампиризм"
+  description:
+    - "&fПри ударах с шансом восстанавливает здоровье."
+  rarity: "RARE"
+  max_level: 2
+  conflicts: []
+  applies_to: [ SWORD ]
+  enchanting_table:
+    enabled: true
+    chance_weight: 5
+  trigger: "ATTACK_ENTITY"
+  effect:
+    type: "POTION"
+    target: "SELF" # Эффект на себя
+    level-1:
+      chance: 15.0
+      potion-type: "REGENERATION"
+      duration-ticks: 40 # 2 секунды
+      amplifier: 0
+    level-2:
+      chance: 25.0
+      potion-type: "REGENERATION"
+      duration-ticks: 40
+      amplifier: 1 # Реген II
+toxic:
+  enabled: true
+  display_name: "&#EDFF43Яд"
+  description:
+    - "&fШанс отравить противника."
+  rarity: "LEGENDARY"
+  max_level: 3
+  conflicts: []
+  applies_to: [ SWORD ]
+  enchanting_table:
+    enabled: true
+    chance_weight: 2
+  trigger: "ATTACK_ENTITY"
+  effect:
+    type: "POTION"
+    target: "VICTIM" # Эффект на жертву
+    level-1:
+      chance: 15.0
+      potion-type: "POISON"
+      duration-ticks: 80 # 4 секунды
+      amplifier: 0
+    level-2:
+      chance: 25.0
+      potion-type: "POISON"
+      duration-ticks: 120
+      amplifier: 0
+    level-3:
+      chance: 35.0
+      potion-type: "POISON"
+      duration-ticks: 140
+      amplifier: 1 # Яд II
+abrasion:
+  enabled: true
+  display_name: "&7Окисление"
+  description:
+    - "&fПри ударах ломает броню противника быстрее."
+  rarity: "LEGENDARY"
+  max_level: 2
+  conflicts: []
+  applies_to: [ SWORD ]
+  enchanting_table:
+    enabled: true
+    chance_weight: 2
+  trigger: "ATTACK_ENTITY"
+  effect:
+    type: "DAMAGE_ARMOR"
+    target: "VICTIM"
+    level-1:
+      chance: 15.0
+      damage_amount: 5 # доп. урон по броне
+    level-2:
+      chance: 25.0
+      damage_amount: 10
+identify:
+  enabled: true
+  display_name: "&7Детекция"
+  description:
+    - "&fПри ударах с шансом подсвечивает противника."
+  rarity: "LEGENDARY"
+  max_level: 3
+  conflicts: []
+  applies_to: [ SWORD ]
+  enchanting_table:
+    enabled: true
+    chance_weight: 2
+  trigger: "ATTACK_ENTITY"
+  effect:
+    type: "POTION"
+    target: "VICTIM"
+    level-1:
+      chance: 17.0
+      potion-type: "GLOWING"
+      duration-ticks: 60
+      amplifier: 0
+    level-2:
+      chance: 25.0
+      potion-type: "GLOWING"
+      duration-ticks: 80
+      amplifier: 0
+    level-3:
+      chance: 33.0
+      potion-type: "GLOWING"
+      duration-ticks: 100
+      amplifier: 0
+explosive:
+  enabled: true
+  display_name: "&#E01DFFПодрывник"
+  description:
+    - "&fШанс создать небольшой взрыв при попадании."
+  rarity: "EPIC"
+  max_level: 1
+  conflicts: []
+  applies_to: [ BOW, CROSSBOW ]
+  enchanting_table:
+    enabled: true
+    chance_weight: 3
+  trigger: "BOW_SHOOT" # (На самом деле ProjectileHitEvent)
+  effect:
+    type: "EXPLOSION"
+    level-1:
+      chance: 15.0
+      power: 1.5 # Сила взрыва (небольшая)
+      break_blocks: false # Не ломает блоки
+sniper:
+  enabled: true
+  display_name: "&#E01DFFСнайпер"
+  description:
+    - "&fУвеличивает урон при попадании в голову."
+  rarity: "EPIC"
+  max_level: 5
+  conflicts: []
+  applies_to: [ BOW, CROSSBOW ]
+  enchanting_table:
+    enabled: true
+    chance_weight: 3
+  trigger: "BOW_SHOOT" # (ProjectileHitEvent)
+  effect:
+    type: "INCREASE_DAMAGE"
+    condition: "%is headshot% = true"
+    level-1:
+      chance: 100.0
+      multiplier: 1.25 # 125% урона
+    level-2:
+      chance: 100.0
+      multiplier: 1.50
+    level-3:
+      chance: 100.0
+      multiplier: 1.75
+    level-4:
+      chance: 100.0
+      multiplier: 2.0
+    level-5:
+      chance: 100.0
+      multiplier: 2.5 # 250% урона
+
+# --- ЗАЧАРОВАНИЯ ДЛЯ БРОНИ ---
+
+dodge:
+  enabled: true
+  display_name: "&#E01DFFУклонение"
+  description:
+    - "&fШанс уклониться от физической атаки."
+  rarity: "EPIC"
+  max_level: 2
+  conflicts: []
+  applies_to: [ ARMOR ] # Любая часть брони
+  enchanting_table:
+    enabled: true
+    chance_weight: 3
+  trigger: "DEFENSE_PLAYER"
+  effect:
+    type: "CANCEL_ATTACK"
+    level-1:
+      chance: 7.0
+      sound: "ENTITY_GHAST_SCREAM"
+    level-2:
+      chance: 12.0
+      sound: "ENTITY_BAT_TAKEOFF"
+springs:
+  enabled: true
+  display_name: "&#E01DFFПопрыгун"
+  description:
+    - "&fДает пассивный эффект прыгучести."
+  rarity: "EPIC"
+  max_level: 1
+  conflicts: []
+  applies_to: [ BOOTS ]
+  enchanting_table:
+    enabled: true
+    chance_weight: 3
+  trigger: "EQUIP" # Пассивный эффект
+  effect:
+    type: "POTION_STATIC"
+    level-1:
+      potion-type: "JUMP"
+      amplifier: 0 # Jump Boost I
+lavawalker:
+  enabled: true
+  display_name: "&#EDFF43Лаваход"
+  description:
+    - "&fПозволяет ходить по лаве."
+  rarity: "LEGENDARY"
+  max_level: 1
+  conflicts: [ "frost_walker" ]
+  applies_to: [ BOOTS ]
+  enchanting_table:
+    enabled: true
+    chance_weight: 1
+  trigger: "MOVE" # (PlayerMoveEvent)
+  effect:
+    type: "LAVA_WALKER" # Аналог FrostWalker
+    level-1:
+      radius: 2

@@ -1,0 +1,79 @@
+# Предметы в меню
+items:
+  sword_enchants:
+    display_name: "&#f89d57Зачарования для оружия"
+    lore:
+      - ""
+      - "&fВ этом разделе находятся"
+      - "&fразличные зачарования для оружия"
+      - ""
+      - "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы перейти"
+    material: NETHERITE_SWORD
+    item_flags: [ HIDE_ATTRIBUTES ]
+    click_actions:
+      - "[AE_OPEN] weapons" # Команда для открытия меню 'weapons.yml'
+  pickaxe_enchants:
+    display_name: "&#f89d57Зачарования для инструментов"
+    lore:
+      - ""
+      - "&fВ этом разделе находятся"
+      - "&fразличные зачарования для инструментов"
+      - ""
+      - "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы перейти"
+    material: NETHERITE_PICKAXE
+    item_flags: [ HIDE_ATTRIBUTES ]
+    click_actions:
+      - "[AE_OPEN] tools" # Команда для открытия меню 'tools.yml'
+  armor_enchants:
+    display_name: "&#f89d57Зачарования для брони"
+    lore:
+      - ""
+      - "&fВ этом разделе находятся"
+      - "&fразличные зачарования для брони"
+      - ""
+      - "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы перейти"
+    material: NETHERITE_CHESTPLATE
+    item_flags: [ HIDE_ATTRIBUTES ]
+    click_actions:
+      - "[AE_OPEN] armor" # Команда для открытия меню 'armor.yml'
+  glass:
+    display_name: "&7"
+    material: RED_STAINED_GLASS_PANE
+  leave:
+    display_name: "&cЗакрыть"
+    lore:
+      - "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы закрыть меню"
+    material: SPECTRAL_ARROW
+    click_actions:
+      - "[CLOSE]" # Команда для закрытия меню
+
+# Анимация появления предметов (по тикам)
+animation:
+  base_tick: 1
+  "tick-1":
+    opcodes:
+      - "set: glass 0,8"
+  "tick-2":
+    opcodes:
+      - "set: glass 1,9,17"
+  "tick-3":
+    opcodes:
+      - "set: glass 36,44"
+  "tick-4":
+    opcodes:
+      - "set: glass 45,46"
+  "tick-5":
+    opcodes:
+      - "set: glass 52,53"
+  "tick-6":
+    opcodes:
+      - "set: sword_enchants 12"
+  "tick-7":
+    opcodes:
+      - "set: pickaxe_enchants 13"
+  "tick-8":
+    opcodes:
+      - "set: armor_enchants 14"
+  "tick-9":
+    opcodes:
+      - "set: leave 49"

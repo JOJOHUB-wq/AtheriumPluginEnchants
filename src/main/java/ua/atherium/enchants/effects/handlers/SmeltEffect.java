@@ -6,6 +6,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import ua.atherium.AtheriumEnchants;
+import ua.atherium.enchants.effects.EnchantmentEffect;
 
 import java.util.ArrayList;
 import java.util.List;

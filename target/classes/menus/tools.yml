@@ -1,0 +1,79 @@
+items:
+
+  --- Навигация ---
+  sword_enchants:
+    display_name: "&#f89d57Зачарования для оружия"
+    lore: [ "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы перейти" ]
+    material: NETHERITE_SWORD
+    item_flags: [ HIDE_ATTRIBUTES ]
+    click_actions: [ "[AE_OPEN] weapons" ]
+  pickaxe_enchants:
+    display_name: "&#f89d57Зачарования для инструментов"
+    lore: [ "&fВы находитесь в этом разделе" ]
+    material: NETHERITE_PICKAXE
+    item_flags: [ HIDE_ATTRIBUTES ]
+    enchantments: [ "unbreaking;1" ] # Подсветка
+  armor_enchants:
+    display_name: "&#f89d57Зачарования для брони"
+    lore: [ "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы перейти" ]
+    material: NETHERITE_CHESTPLATE
+    item_flags: [ HIDE_ATTRIBUTES ]
+    click_actions: [ "[AE_OPEN] armor" ]
+
+  --- Зачарования (Динамические) ---
+  en1:
+    material: ENCHANTED_BOOK
+    enchant_key: "blast_mining" # Бульдозер
+  en2:
+    material: ENCHANTED_BOOK
+    enchant_key: "wisdom" # Опытный
+  en3:
+    material: ENCHANTED_BOOK
+    enchant_key: "infernal_touch" # Авто-плавка
+  en4:
+    material: ENCHANTED_BOOK
+    enchant_key: "timber" # Лесоруб
+  en5:
+    material: ENCHANTED_BOOK
+    enchant_key: "telekinesis" # Магнит
+  en6:
+    material: ENCHANTED_BOOK
+    enchant_key: "bog_touch" # Божье касание
+  en7:
+    material: ENCHANTED_BOOK
+    enchant_key: "pinger" # Пингер
+
+  --- Оформление ---
+  glass:
+    display_name: "&7"
+    material: RED_STAINED_GLASS_PANE
+  leave:
+    display_name: "&7Назад"
+    lore:
+      - "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы вернуться назад"
+    material: SPECTRAL_ARROW
+    click_actions:
+      - "[AE_OPEN] main"
+
+# Анимация
+animation:
+  tick: 1
+  opcodes: [ "set: glass 0,8" ]
+  "tick-2": [ "set: glass 9,17" ]
+  "tick-3": [ "set: glass 36,44" ]
+  "tick-4": [ "set: glass 45,46" ]
+  "tick-5": [ "set: glass 52,53" ]
+  "tick-6": [ "set: sword_enchants 12" ]
+  "tick-7": [ "set: pickaxe_enchants 13" ]
+  "tick-8": [ "set: armor_enchants 14" ]
+
+  --- Слоты для книг ---
+  "tick-9": [ "set: en1 20" ]
+  "tick-10": [ "set: en2 21" ]
+  "tick-11": [ "set: en3 22" ]
+  "tick-12": [ "set: en4 23" ]
+  "tick-13": [ "set: en5 24" ]
+  "tick-14": [ "set: en6 30" ]
+  "tick-15": [ "set: en7 31" ]
+  "tick-16": [ "set: leave 49" ]
+  "tick-17": [ "set: glass 1,7" ]
