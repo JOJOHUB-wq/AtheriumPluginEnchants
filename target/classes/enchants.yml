@@ -91,8 +91,17 @@ infernal_touch:
   trigger: "BLOCK_BREAK"
   effect:
     type: "SMELT"
-    level-1:
-      particle_effect: "FLAME"
+    effects: # Нова секція для звуків та партиклів
+      sound:
+        enabled: true
+        name: "BLOCK_FURNACE_FIRE_CRACKLE"
+        volume: 1.0
+        pitch: 1.2
+      particles:
+        enabled: true
+        name: "LAVA"
+        count: 10
+        offset: 0.5
 telekinesis:
   enabled: true
   display_name: "&#E01DFFМагнит"
@@ -296,6 +305,17 @@ explosive:
       chance: 15.0
       power: 1.5 # Сила взрыва (небольшая)
       break_blocks: false # Не ломает блоки
+    effects:
+      sound:
+        enabled: true
+        name: "ENTITY_GENERIC_EXPLODE"
+        volume: 1.0
+        pitch: 1.0
+      particles:
+        enabled: true
+        name: "EXPLOSION_LARGE"
+        count: 1
+        offset: 0
 sniper:
   enabled: true
   display_name: "&#E01DFFСнайпер"

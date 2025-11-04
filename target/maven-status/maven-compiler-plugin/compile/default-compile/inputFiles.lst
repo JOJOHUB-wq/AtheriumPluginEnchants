@@ -11,6 +11,7 @@
 /app/src/main/java/ua/atherium/enchants/effects/handlers/LavaWalkerEffect.java
 /app/src/main/java/ua/atherium/managers/EnchantmentManager.java
 /app/src/main/java/ua/atherium/enchants/effects/handlers/DodgeEffect.java
+/app/src/main/java/ua/atherium/managers/LoreManager.java
 /app/src/main/java/ua/atherium/listeners/GlobalEnchantListener.java
 /app/src/main/java/ua/atherium/enchants/effects/handlers/PotionEffect.java
 /app/src/main/java/ua/atherium/enchants/CustomEnchant.java
@@ -21,6 +22,7 @@
 /app/src/main/java/ua/atherium/enchants/effects/handlers/DurabilityPingEffect.java
 /app/src/main/java/ua/atherium/utils/ItemBuilder.java
 /app/src/main/java/ua/atherium/enchants/effects/handlers/TimberEffect.java
+/app/src/main/java/ua/atherium/utils/EffectPlayer.java
 /app/src/main/java/ua/atherium/enchants/effects/handlers/DamageArmorEffect.java
 /app/src/main/java/ua/atherium/enchants/effects/EffectFactory.java
 /app/src/main/java/ua/atherium/enchants/effects/handlers/SmeltEffect.java

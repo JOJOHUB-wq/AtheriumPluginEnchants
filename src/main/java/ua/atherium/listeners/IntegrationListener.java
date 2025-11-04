@@ -48,6 +48,7 @@ public class IntegrationListener implements Listener {
         if (chosenEnchant != null) {
             int level = 1 + random.nextInt(chosenEnchant.getMaxLevel());
             PDCUtils.addEnchant(item, chosenEnchant.getKey(), level);
+            plugin.getLoreManager().updateLore(item);
             // Optionally, remove a vanilla enchant to "replace" it
             if (!event.getEnchantsToAdd().isEmpty()) {
                 Enchantment toRemove = (Enchantment) event.getEnchantsToAdd().keySet().toArray()[0];
@@ -78,6 +79,7 @@ public class IntegrationListener implements Listener {
                 if (enchant != null && enchantmentManager.canApply(first, enchant) && !enchantmentManager.hasConflict(first, enchant)) {
                     result = first.clone();
                     PDCUtils.addEnchant(result, enchantKey, level);
+                    plugin.getLoreManager().updateLore(result);
                     event.setResult(result);
                     event.getInventory().setRepairCost(10); // Example cost
                 }
@@ -92,6 +94,7 @@ public class IntegrationListener implements Listener {
                          PDCUtils.addEnchant(result, entry.getKey(), entry.getValue());
                      }
                  }
+                plugin.getLoreManager().updateLore(result);
                 event.setResult(result);
                 event.getInventory().setRepairCost(10);
              }

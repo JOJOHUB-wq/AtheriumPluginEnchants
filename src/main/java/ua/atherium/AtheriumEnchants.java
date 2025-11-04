@@ -16,6 +16,7 @@ import ua.atherium.listeners.IntegrationListener;
 import ua.atherium.managers.ConfigManager;
 import ua.atherium.managers.EnchantmentManager;
 import ua.atherium.managers.GUIManager;
+import ua.atherium.managers.LoreManager;
 import ua.atherium.utils.PDCUtils;
 
 public final class AtheriumEnchants extends JavaPlugin {
@@ -25,6 +26,7 @@ public final class AtheriumEnchants extends JavaPlugin {
     private ConfigManager configManager;
     private EnchantmentManager enchantmentManager;
     private GUIManager guiManager;
+    private LoreManager loreManager;
 
     @Override
     public void onEnable() {
@@ -33,6 +35,7 @@ public final class AtheriumEnchants extends JavaPlugin {
         PDCUtils.init(this);
         configManager = new ConfigManager(this);
         enchantmentManager = new EnchantmentManager(this);
+        loreManager = new LoreManager(enchantmentManager);
         guiManager = new GUIManager(this);
 
         getCommand("atheriumenchants").setExecutor(new CommandManager(this));
@@ -62,5 +65,9 @@ public final class AtheriumEnchants extends JavaPlugin {
 
     public GUIManager getGuiManager() {
         return guiManager;
+    }
+
+    public LoreManager getLoreManager() {
+        return loreManager;
     }
 }

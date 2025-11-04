@@ -5,6 +5,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import ua.atherium.enchants.effects.EnchantmentEffect;
+import ua.atherium.utils.EffectPlayer;
 
 import java.util.Map;
 import java.util.Random;
@@ -37,6 +38,8 @@ public class ExplosiveEffect implements EnchantmentEffect {
         float power = (float) levelConfig.getDouble("power", 1.5);
         boolean breakBlocks = levelConfig.getBoolean("break_blocks", false);
 
-        e.getEntity().getWorld().createExplosion(e.getEntity().getLocation(), power, false, breakBlocks);
+        if (e.getEntity().getWorld().createExplosion(e.getEntity().getLocation(), power, false, breakBlocks)) {
+            EffectPlayer.play(e.getEntity().getLocation(), config.getConfigurationSection("effects"));
+        }
     }
 }

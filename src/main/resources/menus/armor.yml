@@ -1,81 +1,54 @@
-items:
+# Заголовок меню
+title: "❖ Atherium | Броня"
+size: 54
 
-  # --- Навигация ---
+items:
+  # --- Навігація ---
   sword_enchants:
-    display_name: "&#f89d57Зачарования для оружия"
-    lore: [ "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы перейти" ]
+    display_name: "&#f89d57Зачарования для зброї"
+    lore: [ "&#FF6600 ➥ Натисніть&#FFFFFF, щоб перейти" ]
     material: NETHERITE_SWORD
     item_flags: [ HIDE_ATTRIBUTES ]
     click_actions: [ "[AE_OPEN] weapons" ]
   pickaxe_enchants:
-    display_name: "&#f89d57Зачарования для инструментов"
-    lore: [ "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы перейти" ]
+    display_name: "&#f89d57Зачарования для інструментів"
+    lore: [ "&#FF6600 ➥ Натисніть&#FFFFFF, щоб перейти" ]
     material: NETHERITE_PICKAXE
     item_flags: [ HIDE_ATTRIBUTES ]
     click_actions: [ "[AE_OPEN] tools" ]
   armor_enchants:
-    display_name: "&#f89d57Зачарования для брони"
-    lore: [ "&fВы находитесь в этом разделе" ]
+    display_name: "&#f89d57Зачарования для броні"
+    lore: [ "&fВи знаходитесь в цьому розділі" ]
     material: NETHERITE_CHESTPLATE
     item_flags: [ HIDE_ATTRIBUTES ]
-    enchantments: [ "unbreaking;1" ] # Подсветка
+    enchantments: [ "unbreaking;1" ]
 
-  # --- Зачарования (Динамические) ---
-  en1:
-    material: ENCHANTED_BOOK
-    enchant_key: "dodge" # Уклонение
-  en2:
-    material: ENCHANTED_BOOK
-    enchant_key: "springs" # Попрыгун
-  en3:
-    material: ENCHANTED_BOOK
-    enchant_key: "lavawalker" # Лаваход
-  en4:
-    material: ENCHANTED_BOOK
-    enchant_key: "pinger" # Пингер
+  # --- Зачарування (Динамічні) ---
+  en1: { material: ENCHANTED_BOOK, enchant_key: "dodge" }
+  en2: { material: ENCHANTED_BOOK, enchant_key: "springs" }
+  en3: { material: ENCHANTED_BOOK, enchant_key: "lavawalker" }
+  en4: { material: ENCHANTED_BOOK, enchant_key: "pinger" }
 
-  # --- Оформление ---
+  # --- Оформлення ---
   glass:
     display_name: "&7"
     material: RED_STAINED_GLASS_PANE
   leave:
     display_name: "&7Назад"
-    lore:
-      - "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы вернуться назад"
+    lore: [ "&#FF6600 ➥ Натисніть&#FFFFFF, щоб повернутися назад" ]
     material: SPECTRAL_ARROW
-    click_actions:
-      - "[AE_OPEN] main"
+    click_actions: [ "[AE_OPEN] main" ]
 
-# Анимация
+# Анімація
 animation:
-  tick: 1
-  "tick-1":
-    opcodes: [ "set: glass 0,8" ]
-  "tick-2":
-    opcodes: [ "set: glass 9,17" ]
-  "tick-3":
-    opcodes: [ "set: glass 36,44" ]
-  "tick-4":
-    opcodes: [ "set: glass 45,46" ]
-  "tick-5":
-    opcodes: [ "set: glass 52,53" ]
-  "tick-6":
-    opcodes: [ "set: sword_enchants 12" ]
-  "tick-7":
-    opcodes: [ "set: pickaxe_enchants 13" ]
-  "tick-8":
-    opcodes: [ "set: armor_enchants 14" ]
-
-  # --- Слоты для книг ---
-  "tick-9":
-    opcodes: [ "set: en1 21" ]
-  "tick-10":
-    opcodes: [ "set: en2 22" ]
-  "tick-11":
-    opcodes: [ "set: en3 23" ]
-  "tick-12":
-    opcodes: [ "set: en4 24" ]
-  "tick-13":
-    opcodes: [ "set: leave 49" ]
-  "tick-14":
-    opcodes: [ "set: glass 1,7" ]
+  base_tick: 1
+  timeline:
+    - "1: set: glass 0,8,1,7,9,17,36,44,45,46,52,53"
+    - "2: set: sword_enchants 12"
+    - "3: set: pickaxe_enchants 13"
+    - "4: set: armor_enchants 14"
+    - "5: set: en1 21"
+    - "6: set: en2 22"
+    - "7: set: en3 23"
+    - "8: set: en4 24"
+    - "9: set: leave 49"

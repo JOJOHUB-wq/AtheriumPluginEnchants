@@ -20,61 +20,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.TreeMap;
 
 public class AnimatedGUI implements InventoryHolder {
 
     private final Inventory inventory;
     private final ConfigurationSection config;
     private final Map<Integer, List<String>> clickActions = new HashMap<>();
+    private final EnchantmentManager enchantmentManager;
 
     public AnimatedGUI(ConfigurationSection config, EnchantmentManager enchantmentManager) {
         this.config = config;
+        this.enchantmentManager = enchantmentManager;
         this.inventory = Bukkit.createInventory(this, config.getInt("size", 54), ChatUtils.colorize(config.getString("title", "Atherium Enchants")));
-        loadItems(enchantmentManager);
-    }
-
-    private void loadItems(EnchantmentManager enchantmentManager) {
-        ConfigurationSection itemsSection = config.getConfigurationSection("items");
-        if (itemsSection == null) return;
-
-        for (String key : itemsSection.getKeys(false)) {
-            ConfigurationSection itemConfig = itemsSection.getConfigurationSection(key);
-            if (itemConfig == null) continue;
-
-            ItemBuilder builder;
-            if (itemConfig.contains("enchant_key")) {
-                String enchantKey = itemConfig.getString("enchant_key");
-                CustomEnchant enchant = enchantmentManager.getEnchant(enchantKey);
-                if (enchant == null) continue;
-                builder = new ItemBuilder(Material.valueOf(itemConfig.getString("material", "ENCHANTED_BOOK")))
-                        .setDisplayName(enchant.getDisplayName())
-                        .setLore(enchant.getDescription());
-            } else {
-                builder = new ItemBuilder(Material.valueOf(itemConfig.getString("material", "STONE")))
-                        .setDisplayName(itemConfig.getString("display_name", " "))
-                        .setLore(itemConfig.getStringList("lore"));
-            }
-
-            if (itemConfig.contains("item_flags")) {
-                itemConfig.getStringList("item_flags").forEach(flag -> builder.addItemFlags(ItemFlag.valueOf(flag)));
-            }
-            if (itemConfig.contains("enchantments")) {
-                itemConfig.getStringList("enchantments").forEach(ench -> {
-                    String[] parts = ench.split(";");
-                    Enchantment enchantment = Enchantment.getByName(parts[0].toUpperCase());
-                    if (enchantment != null) {
-                        builder.addEnchant(enchantment, Integer.parseInt(parts[1]));
-                    }
-                });
-            }
-            // This is a template item, it will be placed by animation
-            // we just need to store the click actions if any
-            if (itemConfig.contains("click_actions")) {
-                // This is a simplified approach, we will map actions to the key, not the item itself
-                // The animation will place items and we'll retrieve actions by item key later
-            }
-        }
     }
 
     public void open(Player player) {
@@ -86,124 +44,112 @@ public class AnimatedGUI implements InventoryHolder {
         ConfigurationSection animationSection = config.getConfigurationSection("animation");
         if (animationSection == null) return;
 
+        final Map<Integer, List<String>> timeline = parseTimeline(animationSection.getStringList("timeline"));
+
         new BukkitRunnable() {
-            private final Map<Integer, List<String>> opcodesByTick = parseOpcodes();
             private int currentTick = 0;
+            private final int maxTick = timeline.keySet().stream().max(Integer::compareTo).orElse(0);
 
             @Override
             public void run() {
-                if (!opcodesByTick.containsKey(currentTick)) {
-                    if (currentTick > opcodesByTick.keySet().stream().max(Integer::compareTo).orElse(0)) {
-                        this.cancel();
+                if (timeline.containsKey(currentTick)) {
+                    List<String> opcodes = timeline.get(currentTick);
+                    for (String opcode : opcodes) {
+                        executeOpcode(opcode);
                     }
-                    currentTick++;
-                    return;
                 }
 
-                List<String> opcodes = opcodesByTick.get(currentTick);
-                for (String opcode : opcodes) {
-                    String[] parts = opcode.split(":");
-                    String command = parts[0];
-                    String[] args = parts[1].trim().split("\\s+");
-                    String itemKey = args[0];
-                    String[] slots = args[1].split(",");
-
-                    if (command.equalsIgnoreCase("set")) {
-                        ItemStack item = getItem(itemKey);
-                        for (String slotStr : slots) {
-                            int slot = Integer.parseInt(slotStr);
-                            inventory.setItem(slot, item);
-                            clickActions.put(slot, getClickActions(itemKey));
-                        }
-                    }
+                if (currentTick >= maxTick) {
+                    this.cancel();
                 }
                 currentTick++;
             }
-        }.runTaskTimer(AtheriumEnchants.getInstance(), 0L, animationSection.getLong("tick", 1L));
+        }.runTaskTimer(AtheriumEnchants.getInstance(), 0L, animationSection.getLong("base_tick", 1L));
     }
 
+    private Map<Integer, List<String>> parseTimeline(List<String> rawTimeline) {
+        Map<Integer, List<String>> timeline = new TreeMap<>();
+        for (String entry : rawTimeline) {
+            String[] parts = entry.split(":", 2);
+            try {
+                int tick = Integer.parseInt(parts[0].trim());
+                timeline.computeIfAbsent(tick, k -> new ArrayList<>()).add(parts[1].trim());
+            } catch (NumberFormatException ignored) {}
+        }
+        return timeline;
+    }
 
-    private Map<Integer, List<String>> parseOpcodes() {
-        Map<Integer, List<String>> opcodesByTick = new HashMap<>();
-        ConfigurationSection animationSection = config.getConfigurationSection("animation");
-        for (String key : animationSection.getKeys(false)) {
-            if (key.startsWith("tick")) {
+    private void executeOpcode(String opcode) {
+        String[] parts = opcode.split(":", 2);
+        String command = parts[0].trim();
+        String[] args = parts[1].trim().split("\\s+");
+        String itemKey = args[0];
+        String[] slots = args[1].split(",");
+
+        if (command.equalsIgnoreCase("set")) {
+            ItemStack item = getItem(itemKey);
+            if (item == null) return;
+            for (String slotStr : slots) {
                 try {
-                    int tick = Integer.parseInt(key.substring(4));
-                    opcodesByTick.put(tick, animationSection.getStringList("opcodes"));
-                } catch (NumberFormatException e) {
-                    // ignore, not a tick key
-                }
+                    int slot = Integer.parseInt(slotStr.trim());
+                    inventory.setItem(slot, item);
+                    clickActions.put(slot, config.getStringList("items." + itemKey + ".click_actions"));
+                } catch (NumberFormatException ignored) {}
             }
         }
-        //This is a workaround for the user providing tick as a child of animation instead of part of the key
-        ConfigurationSection tickSection = config.getConfigurationSection("animation");
-        if (tickSection != null) {
-            for(String key : tickSection.getKeys(false)) {
-                if (!key.equalsIgnoreCase("tick") && key.startsWith("tick")) {
-                    int tick = Integer.parseInt(key.replace("tick-", ""));
-                    opcodesByTick.put(tick, tickSection.getStringList(key));
-                } else if(key.equalsIgnoreCase("opcodes")) {
-                    // Fallback for single opcode list
-                    int tick = tickSection.getInt("tick", 1);
-                    opcodesByTick.put(tick, tickSection.getStringList("opcodes"));
-                }
-            }
-        }
-        return opcodesByTick;
     }
-
 
     private ItemStack getItem(String itemKey) {
         ConfigurationSection itemConfig = config.getConfigurationSection("items." + itemKey);
-        if (itemConfig == null) return new ItemStack(Material.AIR);
+        if (itemConfig == null) return null;
+
+        Material material = Material.matchMaterial(itemConfig.getString("material", "STONE"));
+        if (material == null) return null;
+
         ItemBuilder builder;
-        EnchantmentManager enchantmentManager = AtheriumEnchants.getInstance().getEnchantmentManager();
         if (itemConfig.contains("enchant_key")) {
             String enchantKey = itemConfig.getString("enchant_key");
             CustomEnchant enchant = enchantmentManager.getEnchant(enchantKey);
-            if (enchant == null) return new ItemStack(Material.AIR);
+            if (enchant == null) return null;
 
             List<String> lore = new ArrayList<>(enchant.getDescription());
             lore.add(" ");
-            lore.add(ChatUtils.colorize("&fПрименимо к: &e" + String.join(", ", enchant.getAppliesTo())));
+            lore.add(ChatUtils.colorize("&fЗастосовується до: &e" + String.join(", ", enchant.getAppliesTo())));
             if (!enchant.getConflicts().isEmpty()) {
-                lore.add(ChatUtils.colorize("&fКонфликтует с: &c" + String.join(", ", enchant.getConflicts())));
+                lore.add(ChatUtils.colorize("&fКонфліктує з: &c" + String.join(", ", enchant.getConflicts())));
             }
-            lore.add(ChatUtils.colorize("&fРедкость: &b" + enchant.getRarity()));
+            lore.add(ChatUtils.colorize("&fРідкість: &b" + enchant.getRarity()));
 
-
-            builder = new ItemBuilder(Material.valueOf(itemConfig.getString("material", "ENCHANTED_BOOK")))
+            builder = new ItemBuilder(material)
                     .setDisplayName(enchant.getDisplayName())
                     .setLore(lore);
         } else {
-            builder = new ItemBuilder(Material.valueOf(itemConfig.getString("material", "STONE")))
+            builder = new ItemBuilder(material)
                     .setDisplayName(itemConfig.getString("display_name", " "))
                     .setLore(itemConfig.getStringList("lore"));
         }
 
-        if (itemConfig.contains("item_flags")) {
-            itemConfig.getStringList("item_flags").forEach(flag -> builder.addItemFlags(ItemFlag.valueOf(flag.toUpperCase())));
-        }
-        if (itemConfig.contains("enchantments")) {
-            itemConfig.getStringList("enchantments").forEach(ench -> {
-                String[] parts = ench.split(";");
-                Enchantment enchantment = Enchantment.getByName(parts[0].toUpperCase());
-                if (enchantment != null) {
+        itemConfig.getStringList("item_flags").forEach(flag -> {
+            try {
+                builder.addItemFlags(ItemFlag.valueOf(flag.toUpperCase()));
+            } catch (IllegalArgumentException ignored) {}
+        });
+
+        itemConfig.getStringList("enchantments").forEach(ench -> {
+            String[] parts = ench.split(";");
+            Enchantment enchantment = Enchantment.getByName(parts[0].toUpperCase());
+            if (enchantment != null) {
+                try {
                     builder.addEnchant(enchantment, Integer.parseInt(parts[1]));
-                }
-            });
-        }
+                } catch (NumberFormatException ignored) {}
+            }
+        });
+
         return builder.build();
     }
 
-
     public List<String> getClickActions(int slot) {
         return clickActions.get(slot);
-    }
-
-    private List<String> getClickActions(String itemKey) {
-        return config.getStringList("items." + itemKey + ".click_actions");
     }
 
     @Override

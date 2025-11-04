@@ -169,6 +169,7 @@ public class CommandManager implements CommandExecutor {
         level = Math.min(Math.max(level, 1), enchant.getMaxLevel());
 
         PDCUtils.addEnchant(item, enchant.getKey(), level);
+        plugin.getLoreManager().updateLore(item);
         sender.sendMessage(getMessage("enchant_applied")
                 .replace("%enchant%", enchant.getDisplayName())
                 .replace("%level%", EnchantmentManager.toRoman(level)));

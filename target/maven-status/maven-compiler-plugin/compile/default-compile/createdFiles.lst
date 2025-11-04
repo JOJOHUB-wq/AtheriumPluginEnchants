@@ -7,6 +7,7 @@ ua/atherium/managers/EnchantmentManager.class
 ua/atherium/enchants/effects/handlers/DodgeEffect.class
 ua/atherium/enchants/effects/handlers/TelekinesisEffect.class
 ua/atherium/managers/ConfigManager.class
+ua/atherium/utils/EffectPlayer.class
 ua/atherium/enchants/effects/handlers/DamageArmorEffect.class
 ua/atherium/commands/CommandManager.class
 ua/atherium/enchants/effects/handlers/LavaWalkerEffect.class
@@ -31,6 +32,7 @@ ua/atherium/enchants/effects/handlers/PotionEffect.class
 ua/atherium/enchants/effects/handlers/StaticPotionEffect.class
 ua/atherium/listeners/GUIListener.class
 ua/atherium/utils/PDCUtils.class
+ua/atherium/managers/LoreManager.class
 ua/atherium/listeners/GlobalEnchantListener$1.class
 ua/atherium/utils/ChatUtils.class
 ua/atherium/enchants/effects/handlers/ExplosiveEffect.class

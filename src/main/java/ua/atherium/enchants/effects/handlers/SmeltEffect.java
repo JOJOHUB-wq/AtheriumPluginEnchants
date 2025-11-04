@@ -7,6 +7,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import ua.atherium.AtheriumEnchants;
 import ua.atherium.enchants.effects.EnchantmentEffect;
+import ua.atherium.utils.EffectPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +38,20 @@ public class SmeltEffect implements EnchantmentEffect {
             return;
         }
 
+        boolean smelted = false;
         List<ItemStack> smeltedDrops = new ArrayList<>();
         for (ItemStack drop : drops) {
             Material result = smeltingRecipes.get(drop.getType());
             if (result != null) {
                 smeltedDrops.add(new ItemStack(result, drop.getAmount()));
+                smelted = true;
             } else {
                 smeltedDrops.add(drop);
             }
+        }
+
+        if (smelted) {
+            EffectPlayer.play(((BlockBreakEvent) event).getBlock().getLocation().add(0.5, 0.5, 0.5), config.getConfigurationSection("effects"));
         }
 
         context.put("drops", smeltedDrops);
