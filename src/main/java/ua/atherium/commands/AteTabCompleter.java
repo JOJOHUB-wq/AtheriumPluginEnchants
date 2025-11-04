@@ -1,5 +1,6 @@
 package ua.atherium.commands;
 
+import com.google.common.collect.Lists;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -32,31 +33,42 @@ public class AteTabCompleter implements TabCompleter {
             return StringUtil.copyPartialMatches(args[0], SUBCOMMANDS, new ArrayList<>());
         }
 
-        if (args.length == 2 && args[0].equalsIgnoreCase("enchant")) {
-            if (!(sender instanceof Player)) {
-                return Collections.emptyList();
-            }
-
-            Player player = (Player) sender;
-            ItemStack item = player.getInventory().getItemInMainHand();
-            if (item == null || item.getType().isAir()) {
-                return Collections.emptyList();
-            }
-
-            List<String> suggestions = enchantmentManager.getRegisteredEnchants().values().stream()
-                    .filter(enchant -> enchantmentManager.canApply(item, enchant))
-                    .filter(enchant -> !PDCUtils.hasEnchant(item, enchant.getKey()))
-                    .filter(enchant -> !enchantmentManager.hasConflict(item, enchant))
-                    .map(CustomEnchant::getKey)
-                    .collect(Collectors.toList());
-
-            return StringUtil.copyPartialMatches(args[1], suggestions, new ArrayList<>());
-        }
-
         if (args.length == 2) {
             if (args[0].equalsIgnoreCase("give")) {
                 List<String> enchantKeys = new ArrayList<>(enchantmentManager.getRegisteredEnchants().keySet());
                 return StringUtil.copyPartialMatches(args[1], enchantKeys, new ArrayList<>());
+            }
+
+            if (args[0].equalsIgnoreCase("enchant")) {
+                if (!(sender instanceof Player)) {
+                    return Collections.emptyList();
+                }
+
+                Player player = (Player) sender;
+                ItemStack item = player.getInventory().getItemInMainHand();
+                if (item == null || item.getType().isAir()) {
+                    return Collections.emptyList();
+                }
+
+                List<String> suggestions = enchantmentManager.getRegisteredEnchants().values().stream()
+                        .filter(enchant -> enchantmentManager.canApply(item, enchant))
+                        .filter(enchant -> !PDCUtils.hasEnchant(item, enchant.getKey()))
+                        .filter(enchant -> !enchantmentManager.hasConflict(item, enchant))
+                        .map(CustomEnchant::getKey)
+                        .collect(Collectors.toList());
+
+                return StringUtil.copyPartialMatches(args[1], suggestions, new ArrayList<>());
+            }
+        }
+
+        if (args.length == 3 && args[0].equalsIgnoreCase("enchant")) {
+            CustomEnchant enchant = enchantmentManager.getEnchant(args[1]);
+            if (enchant != null) {
+                List<String> levels = new ArrayList<>();
+                for (int i = 1; i <= enchant.getMaxLevel(); i++) {
+                    levels.add(String.valueOf(i));
+                }
+                return StringUtil.copyPartialMatches(args[2], levels, new ArrayList<>());
             }
         }
 

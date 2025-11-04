@@ -4,6 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import ua.atherium.enchants.effects.EnchantmentEffect;
+import ua.atherium.utils.EffectPlayer;
 
 import java.util.Map;
 import java.util.Random;
@@ -29,6 +30,6 @@ public class IncreaseDamageEffect implements EnchantmentEffect {
 
         double multiplier = levelConfig.getDouble("multiplier", 1.25);
         e.setDamage(e.getDamage() * multiplier);
-
+        EffectPlayer.play(e.getEntity().getLocation(), config.getConfigurationSection("effects"));
     }
 }

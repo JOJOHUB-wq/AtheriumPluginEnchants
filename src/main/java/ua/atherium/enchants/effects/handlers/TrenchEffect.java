@@ -11,7 +11,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-import ua.atherium.AtheriumEnchants;
 import ua.atherium.enchants.effects.EnchantmentEffect;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class TrenchEffect implements EnchantmentEffect {
         Block originalBlock = blockBreakEvent.getBlock();
         ItemStack tool = player.getInventory().getItemInMainHand();
 
-        if (player.isSneaking() && AtheriumEnchants.getInstance().getConfigManager().getConfig().getBoolean("synergy.disable_area_effects_on_sneak", true)) {
+        if (player.isSneaking()) {
             return;
         }
 
@@ -62,17 +61,13 @@ public class TrenchEffect implements EnchantmentEffect {
             }
         }
 
-        List<ItemStack> totalDrops = new ArrayList<>((Collection<ItemStack>) context.getOrDefault("drops", new ArrayList<ItemStack>()));
+        List<ItemStack> totalDrops = (List<ItemStack>) context.get("drops");
 
         for (Block block : blocksToBreak) {
             totalDrops.addAll(block.getDrops(tool, player));
             block.setType(Material.AIR);
             damageTool(tool, player);
         }
-
-        context.put("drops", totalDrops);
-        context.put("prevent_default_drops", true);
-        blockBreakEvent.setDropItems(false); // Let synergy handle drops
     }
 
     private boolean isBreakable(Block block, ItemStack tool, ConfigurationSection config) {

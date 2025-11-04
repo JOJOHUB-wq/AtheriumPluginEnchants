@@ -8,6 +8,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import ua.atherium.enchants.effects.EnchantmentEffect;
+import ua.atherium.utils.EffectPlayer;
 
 import java.util.Collection;
 import java.util.List;
@@ -39,6 +40,8 @@ public class TelekinesisEffect implements EnchantmentEffect {
             for (ItemStack item : leftover) {
                 player.getWorld().dropItemNaturally(player.getLocation(), item);
             }
+        } else {
+            EffectPlayer.play(player.getLocation(), config.getConfigurationSection("effects"));
         }
 
         context.put("prevent_default_drops", true);

@@ -20,46 +20,45 @@ public class PDCUtils {
     private static final Type TYPE = new TypeToken<Map<String, Integer>>() {}.getType();
 
     public static void init(AtheriumEnchants plugin) {
-        ENCHANTS_KEY = new NamespacedKey(plugin, "custom_enchants");
+        if (ENCHANTS_KEY == null) {
+            ENCHANTS_KEY = new NamespacedKey(plugin, "custom_enchants");
+        }
+    }
+
+    private static PersistentDataContainer getContainer(ItemStack item) {
+        if (item == null || item.getItemMeta() == null) {
+            return null;
+        }
+        return item.getItemMeta().getPersistentDataContainer();
     }
 
     public static void addEnchant(ItemStack item, String enchantKey, int level) {
-        if (item == null || item.getItemMeta() == null) {
-            return;
-        }
         ItemMeta meta = item.getItemMeta();
+        if (meta == null) return;
         PersistentDataContainer container = meta.getPersistentDataContainer();
         Map<String, Integer> enchants = getEnchants(item);
         enchants.put(enchantKey, level);
-        String json = GSON.toJson(enchants);
-        container.set(ENCHANTS_KEY, PersistentDataType.STRING, json);
+        container.set(ENCHANTS_KEY, PersistentDataType.STRING, GSON.toJson(enchants));
         item.setItemMeta(meta);
     }
 
     public static void removeEnchant(ItemStack item, String enchantKey) {
-        if (item == null || item.getItemMeta() == null) {
-            return;
-        }
         ItemMeta meta = item.getItemMeta();
+        if (meta == null) return;
         PersistentDataContainer container = meta.getPersistentDataContainer();
         Map<String, Integer> enchants = getEnchants(item);
         if (enchants.remove(enchantKey) != null) {
-            String json = GSON.toJson(enchants);
-            container.set(ENCHANTS_KEY, PersistentDataType.STRING, json);
+            container.set(ENCHANTS_KEY, PersistentDataType.STRING, GSON.toJson(enchants));
             item.setItemMeta(meta);
         }
     }
 
     public static Map<String, Integer> getEnchants(ItemStack item) {
-        if (item == null || item.getItemMeta() == null) {
+        PersistentDataContainer container = getContainer(item);
+        if (container == null || !container.has(ENCHANTS_KEY, PersistentDataType.STRING)) {
             return new HashMap<>();
         }
-        ItemMeta meta = item.getItemMeta();
-        PersistentDataContainer container = meta.getPersistentDataContainer();
         String json = container.get(ENCHANTS_KEY, PersistentDataType.STRING);
-        if (json == null || json.isEmpty()) {
-            return new HashMap<>();
-        }
         Map<String, Integer> enchants = GSON.fromJson(json, TYPE);
         return enchants == null ? new HashMap<>() : enchants;
     }

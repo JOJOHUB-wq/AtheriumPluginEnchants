@@ -5,6 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import ua.atherium.enchants.effects.EnchantmentEffect;
+import ua.atherium.utils.EffectPlayer;
 
 import java.util.Map;
 
@@ -20,10 +21,16 @@ public class WisdomEffect implements EnchantmentEffect {
         int xp = 0;
         if (event instanceof BlockBreakEvent) {
            xp = ((BlockBreakEvent) event).getExpToDrop();
-           ((BlockBreakEvent) event).setExpToDrop((int) (xp * multiplier));
+           if (xp > 0) {
+               ((BlockBreakEvent) event).setExpToDrop((int) (xp * multiplier));
+               EffectPlayer.play(((BlockBreakEvent) event).getBlock().getLocation(), config.getConfigurationSection("effects"));
+           }
         } else if (event instanceof EntityDeathEvent) {
             xp = ((EntityDeathEvent) event).getDroppedExp();
-            ((EntityDeathEvent) event).setDroppedExp((int) (xp * multiplier));
+            if (xp > 0) {
+                ((EntityDeathEvent) event).setDroppedExp((int) (xp * multiplier));
+                EffectPlayer.play(((EntityDeathEvent) event).getEntity().getLocation(), config.getConfigurationSection("effects"));
+            }
         }
     }
 }

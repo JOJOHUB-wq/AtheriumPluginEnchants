@@ -12,6 +12,7 @@ public class CustomEnchant {
     private final String key;
     private final boolean enabled;
     private final String displayName;
+    private final String bookDisplayName;
     private final List<String> description;
     private final String rarity;
     private final int maxLevel;
@@ -27,6 +28,7 @@ public class CustomEnchant {
         this.key = key;
         this.enabled = config.getBoolean("enabled", false);
         this.displayName = config.getString("display_name", "");
+        this.bookDisplayName = config.getString("book_display_name", displayName);
         this.description = config.getStringList("description");
         this.rarity = config.getString("rarity", "COMMON");
         this.maxLevel = config.getInt("max_level", 1);
@@ -57,6 +59,10 @@ public class CustomEnchant {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public String getBookDisplayName() {
+        return bookDisplayName;
     }
 
     public List<String> getDescription() {

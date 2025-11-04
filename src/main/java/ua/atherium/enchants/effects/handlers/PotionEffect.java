@@ -8,6 +8,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffectType;
 
 import ua.atherium.enchants.effects.EnchantmentEffect;
+import ua.atherium.utils.EffectPlayer;
 
 import java.util.Map;
 import java.util.Random;
@@ -46,6 +47,7 @@ public class PotionEffect implements EnchantmentEffect {
 
         if (type != null) {
             targetEntity.addPotionEffect(new org.bukkit.potion.PotionEffect(type, duration, amplifier));
+            EffectPlayer.play(targetEntity.getLocation(), config.getConfigurationSection("effects"));
         }
     }
 }

@@ -25,25 +25,33 @@ public class LoreManager {
         }
 
         ItemMeta meta = item.getItemMeta();
-        List<String> newLore = meta.hasLore() ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
+        List<String> originalLore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+        List<String> newLore = new ArrayList<>();
 
-        // Remove old custom enchant lore
-        newLore.removeIf(line -> line.startsWith(ChatUtils.colorize("&#")));
-
+        // Add custom enchantments to the top
         Map<String, Integer> enchants = PDCUtils.getEnchants(item);
         if (!enchants.isEmpty()) {
-            List<String> enchantLore = enchants.entrySet().stream()
+            enchants.entrySet().stream()
                     .map(entry -> {
                         CustomEnchant enchant = enchantmentManager.getEnchant(entry.getKey());
-                        if (enchant == null) return "";
-                        return enchant.getDisplayName() + " " + EnchantmentManager.toRoman(entry.getValue());
+                        if (enchant == null) return null;
+                        return ChatUtils.colorize(enchant.getDisplayName() + " " + EnchantmentManager.toRoman(entry.getValue()));
                     })
-                    .filter(line -> !line.isEmpty())
-                    .collect(Collectors.toList());
-            newLore.addAll(0, enchantLore);
+                    .filter(line -> line != null && !line.isEmpty())
+                    .forEach(newLore::add);
         }
 
-        meta.setLore(newLore);
+        // Add original lore, filtering out old custom enchantments
+        if (originalLore != null) {
+            originalLore.stream()
+                .filter(line -> !line.contains("§")) // A simple way to filter out old colorized lines
+                .forEach(newLore::add);
+        }
+
+        // Remove duplicates
+        List<String> finalLore = newLore.stream().distinct().collect(Collectors.toList());
+
+        meta.setLore(finalLore);
         item.setItemMeta(meta);
     }
 }

@@ -7,6 +7,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import ua.atherium.enchants.effects.EnchantmentEffect;
+import ua.atherium.utils.EffectPlayer;
 
 import java.util.Map;
 import java.util.Random;
@@ -36,7 +37,7 @@ public class CancelAttackEffect implements EnchantmentEffect {
         e.setCancelled(true);
         if(e.getEntity() instanceof Player) {
             Player player = (Player) e.getEntity();
-            player.playSound(player.getLocation(), Sound.valueOf(levelConfig.getString("sound", "ENTITY_GHAST_SCREAM")), 1, 1);
+            EffectPlayer.play(player.getLocation(), config.getConfigurationSection("effects"));
         }
     }
 }

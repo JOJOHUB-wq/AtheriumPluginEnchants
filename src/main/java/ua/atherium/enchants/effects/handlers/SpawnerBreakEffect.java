@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 
 import ua.atherium.enchants.effects.EnchantmentEffect;
+import ua.atherium.utils.EffectPlayer;
 
 import java.util.Map;
 
@@ -35,6 +36,7 @@ public class SpawnerBreakEffect implements EnchantmentEffect {
                 Damageable meta = (Damageable) tool.getItemMeta();
                 meta.setDamage(meta.getDamage() + durabilityCost);
                 tool.setItemMeta(meta);
+                EffectPlayer.play(e.getBlock().getLocation(), config.getConfigurationSection("effects"));
             }
         }
     }
