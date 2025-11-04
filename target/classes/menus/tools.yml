@@ -1,6 +1,6 @@
 items:
 
-  --- Навигация ---
+  # --- Навигация ---
   sword_enchants:
     display_name: "&#f89d57Зачарования для оружия"
     lore: [ "&#FF6600 ➥ Нажмите&#FFFFFF, чтобы перейти" ]
@@ -20,7 +20,7 @@ items:
     item_flags: [ HIDE_ATTRIBUTES ]
     click_actions: [ "[AE_OPEN] armor" ]
 
-  --- Зачарования (Динамические) ---
+  # --- Зачарования (Динамические) ---
   en1:
     material: ENCHANTED_BOOK
     enchant_key: "blast_mining" # Бульдозер
@@ -43,7 +43,7 @@ items:
     material: ENCHANTED_BOOK
     enchant_key: "pinger" # Пингер
 
-  --- Оформление ---
+  # --- Оформление ---
   glass:
     display_name: "&7"
     material: RED_STAINED_GLASS_PANE
@@ -58,22 +58,39 @@ items:
 # Анимация
 animation:
   tick: 1
-  opcodes: [ "set: glass 0,8" ]
-  "tick-2": [ "set: glass 9,17" ]
-  "tick-3": [ "set: glass 36,44" ]
-  "tick-4": [ "set: glass 45,46" ]
-  "tick-5": [ "set: glass 52,53" ]
-  "tick-6": [ "set: sword_enchants 12" ]
-  "tick-7": [ "set: pickaxe_enchants 13" ]
-  "tick-8": [ "set: armor_enchants 14" ]
+  "tick-1":
+    opcodes: [ "set: glass 0,8" ]
+  "tick-2":
+    opcodes: [ "set: glass 9,17" ]
+  "tick-3":
+    opcodes: [ "set: glass 36,44" ]
+  "tick-4":
+    opcodes: [ "set: glass 45,46" ]
+  "tick-5":
+    opcodes: [ "set: glass 52,53" ]
+  "tick-6":
+    opcodes: [ "set: sword_enchants 12" ]
+  "tick-7":
+    opcodes: [ "set: pickaxe_enchants 13" ]
+  "tick-8":
+    opcodes: [ "set: armor_enchants 14" ]
 
-  --- Слоты для книг ---
-  "tick-9": [ "set: en1 20" ]
-  "tick-10": [ "set: en2 21" ]
-  "tick-11": [ "set: en3 22" ]
-  "tick-12": [ "set: en4 23" ]
-  "tick-13": [ "set: en5 24" ]
-  "tick-14": [ "set: en6 30" ]
-  "tick-15": [ "set: en7 31" ]
-  "tick-16": [ "set: leave 49" ]
-  "tick-17": [ "set: glass 1,7" ]
+  # --- Слоты для книг ---
+  "tick-9":
+    opcodes: [ "set: en1 20" ]
+  "tick-10":
+    opcodes: [ "set: en2 21" ]
+  "tick-11":
+    opcodes: [ "set: en3 22" ]
+  "tick-12":
+    opcodes: [ "set: en4 23" ]
+  "tick-13":
+    opcodes: [ "set: en5 24" ]
+  "tick-14":
+    opcodes: [ "set: en6 30" ]
+  "tick-15":
+    opcodes: [ "set: en7 31" ]
+  "tick-16":
+    opcodes: [ "set: leave 49" ]
+  "tick-17":
+    opcodes: [ "set: glass 1,7" ]
