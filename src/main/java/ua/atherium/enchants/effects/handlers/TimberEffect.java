@@ -45,7 +45,7 @@ public class TimberEffect implements EnchantmentEffect {
         Block startBlock = blockBreakEvent.getBlock();
         ItemStack tool = player.getInventory().getItemInMainHand();
 
-        if (player.isSneaking()) {
+        if (player.isSneaking() && AtheriumEnchants.getInstance().getConfigManager().getConfig().getBoolean("synergy.disable_area_effects_on_sneak", true)) {
             return;
         }
 
@@ -80,17 +80,16 @@ public class TimberEffect implements EnchantmentEffect {
                 }
 
                 Block block = orderedBlocks.get(index++);
-                if (block.breakNaturally(tool)) {
-                    EffectPlayer.play(block.getLocation().add(0.5, 0.5, 0.5), config.getConfigurationSection("effects"));
-                    damageTool(tool, player);
-                    // Synergy is handled by the BlockBreakEvent, so we don't need to call it manually
-                }
+                Collection<ItemStack> drops = block.getDrops(tool, player);
+                block.setType(Material.AIR);
+                damageTool(tool, player);
+                EffectPlayer.play(block.getLocation().add(0.5, 0.5, 0.5), config.getConfigurationSection("effects"));
+
+
+                // Run synergy for each block's drops
+                listener.applySynergy(new ArrayList<>(drops), tool, player, block.getLocation());
             }
         }.runTaskTimer(AtheriumEnchants.getInstance(), delay, delay);
-
-        // Prevent the original block break to avoid duplicate drops
-        context.put("prevent_default_drops", true);
-        blockBreakEvent.setCancelled(true);
     }
 
     private Set<Block> findTree(Block startBlock, int maxBlocks) {

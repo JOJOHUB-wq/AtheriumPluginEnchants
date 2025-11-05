@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -281,6 +282,24 @@ public class GlobalEnchantListener implements Listener {
                 return 3;
             default:
                 return 99;
+        }
+    }
+
+    @EventHandler
+    public void onFish(PlayerFishEvent event) {
+        Player player = event.getPlayer();
+        ItemStack tool = player.getInventory().getItemInMainHand();
+        if (tool.getType() != Material.FISHING_ROD) return;
+
+        Map<String, Integer> enchantLevels = PDCUtils.getEnchants(tool);
+        if (enchantLevels.isEmpty()) return;
+
+        List<CustomEnchant> enchants = getEnchantsByTrigger(enchantLevels, EnchantmentTrigger.FISHING);
+        if (enchants.isEmpty()) return;
+
+        Map<String, Object> context = new HashMap<>();
+        for (CustomEnchant enchant : enchants) {
+            enchant.getEffect().execute(event, enchant.getEffectConfig(), enchantLevels.get(enchant.getKey()), context);
         }
     }
 }

@@ -42,8 +42,10 @@ public class GUIListener implements Listener {
             if (action.equalsIgnoreCase("[CLOSE]")) {
                 player.closeInventory();
             } else if (action.startsWith("[AE_OPEN]")) {
-                String menuId = action.substring(10, action.length() - 1);
-                plugin.getGuiManager().openGUI(player, menuId);
+                String menuId = action.substring(action.indexOf("]") + 1).trim();
+                if (!menuId.isEmpty()) {
+                    plugin.getGuiManager().openGUI(player, menuId);
+                }
             }
             // Other actions can be implemented here
         }

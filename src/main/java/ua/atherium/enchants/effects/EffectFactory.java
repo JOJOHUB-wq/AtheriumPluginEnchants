@@ -42,6 +42,12 @@ public class EffectFactory {
                 return new CancelAttackEffect();
             case "INCREASE_DAMAGE":
                 return new IncreaseDamageEffect();
+            case "FRY_UP":
+                return new FryUpEffect();
+            case "AUTO_FISH":
+                return new AutoFishEffect();
+            case "COBWEB_IMMUNITY":
+                return new CobwebImmunityEffect();
             default:
                 return null;
         }

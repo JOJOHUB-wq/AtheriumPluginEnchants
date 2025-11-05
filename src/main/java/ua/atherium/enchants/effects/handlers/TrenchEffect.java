@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import ua.atherium.AtheriumEnchants;
 import ua.atherium.enchants.effects.EnchantmentEffect;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class TrenchEffect implements EnchantmentEffect {
         Block originalBlock = blockBreakEvent.getBlock();
         ItemStack tool = player.getInventory().getItemInMainHand();
 
-        if (player.isSneaking()) {
+        if (player.isSneaking() && AtheriumEnchants.getInstance().getConfigManager().getConfig().getBoolean("synergy.disable_area_effects_on_sneak", true)) {
             return;
         }
 
@@ -77,14 +78,16 @@ public class TrenchEffect implements EnchantmentEffect {
         String toolType = tool.getType().name();
         String blockType = block.getType().name();
 
-        if (toolType.contains("PICKAXE")) {
-            return config.getStringList("tool-targets.PICKAXE").contains(blockType);
-        } else if (toolType.contains("SHOVEL")) {
-            return config.getStringList("tool-targets.SHOVEL").contains(blockType);
-        } else if (toolType.contains("AXE")) {
-            return config.getStringList("tool-targets.AXE").contains(blockType);
-        }
-        return false;
+        ConfigurationSection toolTargets = config.getConfigurationSection("tool-targets");
+        if (toolTargets == null) return false;
+
+        String TRENCH_PICKAXE = toolType;
+        if (TRENCH_PICKAXE.contains("PICKAXE")) TRENCH_PICKAXE = "PICKAXE";
+        if (TRENCH_PICKAXE.contains("SHOVEL")) TRENCH_PICKAXE = "SHOVEL";
+        if (TRENCH_PICKAXE.contains("AXE")) TRENCH_PICKAXE = "AXE";
+
+        List<String> allowedMaterials = toolTargets.getStringList(TRENCH_PICKAXE);
+        return allowedMaterials.contains(blockType);
     }
 
     private void damageTool(ItemStack tool, Player player) {

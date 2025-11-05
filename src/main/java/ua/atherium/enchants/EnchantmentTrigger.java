@@ -7,5 +7,6 @@ public enum EnchantmentTrigger {
     BOW_SHOOT,
     EQUIP,
     MOVE,
-    INTERACT
+    INTERACT,
+    FISHING
 }

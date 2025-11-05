@@ -35,7 +35,8 @@ public class LoreManager {
                     .map(entry -> {
                         CustomEnchant enchant = enchantmentManager.getEnchant(entry.getKey());
                         if (enchant == null) return null;
-                        return ChatUtils.colorize(enchant.getDisplayName() + " " + EnchantmentManager.toRoman(entry.getValue()));
+                        String roman = EnchantmentManager.toRoman(entry.getValue());
+                        return ChatUtils.colorize(enchant.getDisplayName() + (roman.isEmpty() ? "" : " " + roman));
                     })
                     .filter(line -> line != null && !line.isEmpty())
                     .forEach(newLore::add);
@@ -52,6 +53,13 @@ public class LoreManager {
         List<String> finalLore = newLore.stream().distinct().collect(Collectors.toList());
 
         meta.setLore(finalLore);
+
+        // Add glint if there are custom enchants and no vanilla enchants
+        if (!enchants.isEmpty() && meta.getEnchants().isEmpty()) {
+            meta.addEnchant(org.bukkit.enchantments.Enchantment.LURE, 1, false);
+            meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS);
+        }
+
         item.setItemMeta(meta);
     }
 }

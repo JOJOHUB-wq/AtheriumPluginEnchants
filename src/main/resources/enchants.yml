@@ -28,6 +28,7 @@ blast_mining:
 timber:
   enabled: true
   display_name: "&#29FF1DЛісоруб"
+  book_display_name: "&aКнига: Лісоруб"
   description:
     - "&fЗрубує все дерево."
     - "&7(На Рівні II: безлімітно)"
@@ -48,6 +49,7 @@ timber:
 infernal_touch:
   enabled: true
   display_name: "&#EDFF43Авто-плавка"
+  book_display_name: "&eКнига: Авто-плавка"
   description:
     - "&fАвтоматично переплавляє добуті блоки."
   rarity: "LEGENDARY"
@@ -65,6 +67,7 @@ infernal_touch:
 telekinesis:
   enabled: true
   display_name: "&#E01DFFМагніт"
+  book_display_name: "&dКнига: Магніт"
   description:
     - "&fПритягує дроп в інвентар."
   rarity: "EPIC"
@@ -82,6 +85,7 @@ telekinesis:
 wisdom:
   enabled: true
   display_name: "&#886464Досвідчений"
+  book_display_name: "&7Книга: Досвідчений"
   description:
     - "&fЗбільшує отримуваний досвід."
   rarity: "UNCOMMON"
@@ -102,6 +106,7 @@ wisdom:
 bog_touch:
   enabled: true
   display_name: "&#f89d57Божественне дотик"
+  book_display_name: "&6Книга: Божественне дотик"
   description:
     - "&fДозволяє зламати спавнер золотою киркою."
   rarity: "LEGENDARY"
@@ -120,6 +125,7 @@ bog_touch:
 pinger:
   enabled: true
   display_name: "&7Пингер"
+  book_display_name: "&7Книга: Пингер"
   description:
     - "&fПопереджає, коли предмет майже зламаний."
   rarity: "COMMON"
@@ -140,6 +146,7 @@ pinger:
 vampirizm:
   enabled: true
   display_name: "&#c70000Вампіризм"
+  book_display_name: "&4Книга: Вампіризм"
   description:
     - "&fПри ударах з шансом відновлює здоров'я."
   rarity: "RARE"
@@ -160,6 +167,7 @@ vampirizm:
 toxic:
   enabled: true
   display_name: "&#418f02Отрута"
+  book_display_name: "&2Книга: Отрута"
   description:
     - "&fШанс отруїти супротивника."
   rarity: "LEGENDARY"
@@ -181,6 +189,7 @@ toxic:
 abrasion:
   enabled: true
   display_name: "&7Окислення"
+  book_display_name: "&7Книга: Окислення"
   description:
     - "&fПри ударах ламає броню супротивника швидше."
   rarity: "LEGENDARY"
@@ -200,6 +209,7 @@ abrasion:
 identify:
   enabled: true
   display_name: "&7Детекція"
+  book_display_name: "&7Книга: Детекція"
   description:
     - "&fПри ударах з шансом підсвічує супротивника."
   rarity: "LEGENDARY"
@@ -221,6 +231,7 @@ identify:
 explosive:
   enabled: true
   display_name: "&#E01DFFПідривник"
+  book_display_name: "&dКнига: Підривник"
   description:
     - "&fШанс створити невеликий вибух при попаданні."
   rarity: "EPIC"
@@ -239,6 +250,7 @@ explosive:
 sniper:
   enabled: true
   display_name: "&#E01DFFСнайпер"
+  book_display_name: "&dКнига: Снайпер"
   description:
     - "&fЗбільшує шкоду при попаданні в голову."
   rarity: "EPIC"
@@ -259,11 +271,56 @@ sniper:
       sound: { enabled: true, name: "ENTITY_ARROW_HIT_PLAYER", volume: 1.0, pitch: 1.5 }
       particles: { enabled: true, name: "CRIT_MAGIC", count: 15, offset: 0.5 }
 
+wither:
+  enabled: true
+  display_name: "&8Висушування"
+  book_display_name: "&8Книга: Висушування"
+  description:
+    - "&fШанс накласти ефект висушення."
+  rarity: "EPIC"
+  max_level: 3
+  conflicts: []
+  applies_to: [ SWORD, AXE ]
+  enchanting_table: { enabled: true, chance_weight: 4 }
+  trigger: "ATTACK_ENTITY"
+  effect:
+    type: "POTION"
+    target: "VICTIM"
+    level-1: { chance: 20.0, potion-type: "WITHER", duration-ticks: 100, amplifier: 0 }
+    level-2: { chance: 30.0, potion-type: "WITHER", duration-ticks: 140, amplifier: 1 }
+    level-3: { chance: 40.0, potion-type: "WITHER", duration-ticks: 180, amplifier: 2 }
+    effects:
+      sound: { enabled: true, name: "ENTITY_WITHER_SKELETON_HURT", volume: 1.0, pitch: 1.0 }
+      particles: { enabled: true, name: "SMOKE_LARGE", count: 10, offset: 0.5 }
+
+stun:
+  enabled: true
+  display_name: "&eСтан"
+  book_display_name: "&eКнига: Стан"
+  description:
+    - "&fШанс оглушити супротивника."
+  rarity: "RARE"
+  max_level: 3
+  conflicts: []
+  applies_to: [ SWORD, AXE, BOW, CROSSBOW ]
+  enchanting_table: { enabled: true, chance_weight: 5 }
+  trigger: "ATTACK_ENTITY, BOW_SHOOT"
+  effect:
+    type: "POTION"
+    target: "VICTIM"
+    level-1: { chance: 10.0, potion-type: "SLOWNESS", duration-ticks: 40, amplifier: 2 }
+    level-2: { chance: 15.0, potion-type: "SLOWNESS", duration-ticks: 60, amplifier: 3 }
+    level-3: { chance: 20.0, potion-type: "SLOWNESS", duration-ticks: 80, amplifier: 4 }
+    effects:
+      sound: { enabled: true, name: "ENTITY_ZOMBIE_ATTACK_IRON_DOOR", volume: 1.0, pitch: 1.5 }
+      particles: { enabled: true, name: "CRIT", count: 15, offset: 0.5 }
+
 # --- ЗАЧАРУВАННЯ ДЛЯ БРОНІ ---
 
 dodge:
   enabled: true
   display_name: "&#E01DFFУхилення"
+  book_display_name: "&dКнига: Ухилення"
   description:
     - "&fШанс ухилитися від фізичної атаки."
   rarity: "EPIC"
@@ -283,6 +340,7 @@ dodge:
 springs:
   enabled: true
   display_name: "&#E01DFFСтрибунець"
+  book_display_name: "&dКнига: Стрибунець"
   description:
     - "&fДає пасивний ефект стрибучості."
   rarity: "EPIC"
@@ -301,6 +359,7 @@ springs:
 lavawalker:
   enabled: true
   display_name: "&#EDFF43Лавохід"
+  book_display_name: "&eКнига: Лавохід"
   description:
     - "&fДозволяє ходити по лаві."
   rarity: "LEGENDARY"
@@ -315,3 +374,62 @@ lavawalker:
     effects:
       sound: { enabled: false }
       particles: { enabled: true, name: "FLAME", count: 5, offset: 1.0 }
+
+cobweb_immunity:
+  enabled: true
+  display_name: "&fПавутиння"
+  book_display_name: "&fКнига: Павутиння"
+  description:
+    - "&fДозволяє ігнорувати павутиння."
+  rarity: "UNCOMMON"
+  max_level: 1
+  conflicts: []
+  applies_to: [ LEGGINGS ]
+  enchanting_table: { enabled: true, chance_weight: 8 }
+  trigger: "MOVE"
+  effect:
+    type: "COBWEB_IMMUNITY"
+    effects:
+      sound: { enabled: false }
+      particles: { enabled: true, name: "SNOWFLAKE", count: 10, offset: 0.5 }
+
+# --- ЗАЧАРУВАННЯ ДЛЯ ВУДОЧКИ ---
+
+fry_up:
+  enabled: true
+  display_name: "&6Піджарка"
+  book_display_name: "&6Книга: Піджарка"
+  description:
+    - "&fШанс зловити вже посмажену рибу."
+  rarity: "RARE"
+  max_level: 3
+  conflicts: []
+  applies_to: [ FISHING_ROD ]
+  enchanting_table: { enabled: true, chance_weight: 5 }
+  trigger: "FISHING"
+  effect:
+    type: "FRY_UP"
+    level-1: { chance: 25.0 }
+    level-2: { chance: 50.0 }
+    level-3: { chance: 75.0 }
+    effects:
+      sound: { enabled: true, name: "BLOCK_FIRE_AMBIENT", volume: 1.0, pitch: 1.0 }
+      particles: { enabled: true, name: "FLAME", count: 10, offset: 0.5 }
+
+auto_fish:
+  enabled: true
+  display_name: "&bАвто-рибалка"
+  book_display_name: "&bКнига: Авто-рибалка"
+  description:
+    - "&fАвтоматично закидує вудочку та ловить рибу."
+  rarity: "EPIC"
+  max_level: 1
+  conflicts: []
+  applies_to: [ FISHING_ROD ]
+  enchanting_table: { enabled: true, chance_weight: 2 }
+  trigger: "FISHING"
+  effect:
+    type: "AUTO_FISH"
+    effects:
+      sound: { enabled: true, name: "ENTITY_FISHING_BOBBER_SPLASH", volume: 1.0, pitch: 1.0 }
+      particles: { enabled: true, name: "SPLASH", count: 20, offset: 0.5 }

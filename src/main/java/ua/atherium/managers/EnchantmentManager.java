@@ -87,7 +87,7 @@ public class EnchantmentManager {
     }
 
     public static String toRoman(int number) {
-        if (number < 1 || number > 10) return String.valueOf(number);
+        if (number <= 1 || number > 10) return ""; // Return empty for level 1
         String[] r = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
         return r[number];
     }
