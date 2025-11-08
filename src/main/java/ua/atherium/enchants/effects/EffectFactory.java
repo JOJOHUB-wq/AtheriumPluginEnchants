@@ -48,6 +48,10 @@ public class EffectFactory {
                 return new AutoFishEffect();
             case "COBWEB_IMMUNITY":
                 return new CobwebImmunityEffect();
+            case "ATTRACTION":
+                return new AttractionEffect();
+            case "SCOUT":
+                return new ScoutEffect();
             default:
                 return null;
         }

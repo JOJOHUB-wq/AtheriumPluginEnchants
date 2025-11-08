@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Trident;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,6 +13,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
@@ -27,17 +29,30 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class GlobalEnchantListener implements Listener {
 
     private final AtheriumEnchants plugin;
     private final EnchantmentManager enchantmentManager;
+    private final Map<UUID, ItemStack> thrownTridents = new HashMap<>();
 
     public GlobalEnchantListener(AtheriumEnchants plugin) {
         this.plugin = plugin;
         this.enchantmentManager = plugin.getEnchantmentManager();
         startStaticEffectTask();
+    }
+
+    @EventHandler
+    public void onProjectileLaunch(ProjectileLaunchEvent event) {
+        if (event.getEntity() instanceof Trident && event.getEntity().getShooter() instanceof Player) {
+            Player player = (Player) event.getEntity().getShooter();
+            ItemStack tridentItem = player.getInventory().getItemInMainHand();
+            if (tridentItem.getType() == Material.TRIDENT) {
+                thrownTridents.put(event.getEntity().getUniqueId(), tridentItem.clone());
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -121,21 +136,31 @@ public class GlobalEnchantListener implements Listener {
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
-        if(!(event.getEntity() instanceof Arrow)) return;
-        Arrow arrow = (Arrow) event.getEntity();
-        if(!(arrow.getShooter() instanceof Player)) return;
+        if(!(event.getEntity() instanceof Arrow) && !(event.getEntity() instanceof Trident)) return;
 
-        Player shooter = (Player) arrow.getShooter();
-        ItemStack bow = shooter.getInventory().getItemInMainHand();
-        if(bow.getType() != Material.BOW && bow.getType() != Material.CROSSBOW) return;
+        Player shooter = null;
+        ItemStack weapon = null;
+        if (event.getEntity() instanceof Arrow) {
+            Arrow arrow = (Arrow) event.getEntity();
+             if(!(arrow.getShooter() instanceof Player)) return;
+             shooter = (Player) arrow.getShooter();
+             weapon = shooter.getInventory().getItemInMainHand();
+        } else {
+            Trident trident = (Trident) event.getEntity();
+            if(!(trident.getShooter() instanceof Player)) return;
+            shooter = (Player) trident.getShooter();
+            weapon = thrownTridents.remove(trident.getUniqueId());
+        }
 
-        Map<String, Integer> enchantLevels = PDCUtils.getEnchants(bow);
+        if(weapon == null) return;
+
+        Map<String, Integer> enchantLevels = PDCUtils.getEnchants(weapon);
         if(enchantLevels.isEmpty()) return;
 
         List<CustomEnchant> enchants = getEnchantsByTrigger(enchantLevels, EnchantmentTrigger.BOW_SHOOT);
         Map<String, Object> context = new HashMap<>();
         if(event.getHitEntity() != null) {
-             context.put("is_headshot", event.getHitEntity().getBoundingBox().contains(arrow.getLocation().toVector()));
+             context.put("is_headshot", event.getHitEntity().getBoundingBox().contains(event.getEntity().getLocation().toVector()));
         }
 
         for (CustomEnchant enchant : enchants) {

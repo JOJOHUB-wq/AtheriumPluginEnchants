@@ -23,7 +23,7 @@ blast_mining:
       AXE: [ NETHER_WART_BLOCK, WARPED_WART_BLOCK, SHROOMLIGHT, MUSHROOM_STEM ]
     effects:
       sound: { enabled: true, name: "BLOCK_STONE_BREAK", volume: 0.8, pitch: 1.5 }
-      particles: { enabled: true, name: "CRIT", count: 20, offset: 1.5 }
+      particles: { enabled: true, name: "FLAME", count: 5, offset: 0.5 }
 
 timber:
   enabled: true
@@ -64,18 +64,36 @@ infernal_touch:
       sound: { enabled: true, name: "BLOCK_FURNACE_FIRE_CRACKLE", volume: 1.0, pitch: 1.2 }
       particles: { enabled: true, name: "LAVA", count: 10, offset: 0.5 }
 
-telekinesis:
+tool_magnet:
   enabled: true
-  display_name: "&#E01DFFМагніт"
-  book_display_name: "&dКнига: Магніт"
+  display_name: "&#E01DFFМагніт (Інструменти)"
+  book_display_name: "&dКнига: Магніт (Інструменти)"
   description:
-    - "&fПритягує дроп в інвентар."
+    - "&fПритягує дроп з блоків в інвентар."
   rarity: "EPIC"
   max_level: 1
   conflicts: []
-  applies_to: [ PICKAXE, SHOVEL, AXE, SWORD, BOW ]
+  applies_to: [ PICKAXE, SHOVEL, AXE ]
   enchanting_table: { enabled: true, chance_weight: 3 }
-  trigger: "BLOCK_BREAK, ATTACK_ENTITY, BOW_SHOOT"
+  trigger: "BLOCK_BREAK"
+  effect:
+    type: "TELEKINESIS"
+    effects:
+      sound: { enabled: true, name: "ENTITY_ENDERMAN_TELEPORT", volume: 0.5, pitch: 1.8 }
+      particles: { enabled: true, name: "PORTAL", count: 15, offset: 0.5 }
+
+combat_magnet:
+  enabled: true
+  display_name: "&#E01DFFМагніт (Бій)"
+  book_display_name: "&dКнига: Магніт (Бій)"
+  description:
+    - "&fПритягує дроп з мобів в інвентар."
+  rarity: "EPIC"
+  max_level: 1
+  conflicts: []
+  applies_to: [ SWORD, BOW, TRIDENT ]
+  enchanting_table: { enabled: true, chance_weight: 3 }
+  trigger: "ATTACK_ENTITY, BOW_SHOOT"
   effect:
     type: "TELEKINESIS"
     effects:
@@ -91,7 +109,7 @@ wisdom:
   rarity: "UNCOMMON"
   max_level: 3
   conflicts: []
-  applies_to: [ PICKAXE, SHOVEL, AXE, SWORD, BOW ]
+  applies_to: [ PICKAXE, SHOVEL, AXE, SWORD, BOW, TRIDENT ]
   enchanting_table: { enabled: true, chance_weight: 8 }
   trigger: "BLOCK_BREAK, ATTACK_ENTITY, BOW_SHOOT"
   effect:
@@ -131,7 +149,7 @@ pinger:
   rarity: "COMMON"
   max_level: 1
   conflicts: []
-  applies_to: [ PICKAXE, SHOVEL, AXE, SWORD, BOW, CROSSBOW, ARMOR, BOOTS ]
+  applies_to: [ PICKAXE, SHOVEL, AXE, SWORD, BOW, CROSSBOW, ARMOR, BOOTS, TRIDENT ]
   enchanting_table: { enabled: true, chance_weight: 10 }
   trigger: "BLOCK_BREAK, ATTACK_ENTITY, DEFENSE_PLAYER, BOW_SHOOT"
   effect:
@@ -141,7 +159,7 @@ pinger:
       sound: { enabled: true, name: "BLOCK_NOTE_BLOCK_BELL", volume: 1.0, pitch: 1.0 }
       particles: { enabled: false }
 
-# --- ЗАЧАРУВАННЯ ДЛЯ ЗБРОЇ (МЕЧ, ЛУК) ---
+# --- ЗАЧАРУВАННЯ ДЛЯ ЗБРОЇ (МЕЧ, ЛУК, ТРИЗУБЕЦЬ) ---
 
 vampirizm:
   enabled: true
@@ -152,7 +170,7 @@ vampirizm:
   rarity: "RARE"
   max_level: 2
   conflicts: []
-  applies_to: [ SWORD, AXE ]
+  applies_to: [ SWORD, AXE, TRIDENT ]
   enchanting_table: { enabled: true, chance_weight: 5 }
   trigger: "ATTACK_ENTITY"
   effect:
@@ -173,7 +191,7 @@ toxic:
   rarity: "LEGENDARY"
   max_level: 3
   conflicts: []
-  applies_to: [ SWORD, AXE ]
+  applies_to: [ SWORD, AXE, TRIDENT ]
   enchanting_table: { enabled: true, chance_weight: 2 }
   trigger: "ATTACK_ENTITY"
   effect:
@@ -195,7 +213,7 @@ abrasion:
   rarity: "LEGENDARY"
   max_level: 2
   conflicts: []
-  applies_to: [ SWORD, AXE ]
+  applies_to: [ SWORD, AXE, TRIDENT ]
   enchanting_table: { enabled: true, chance_weight: 2 }
   trigger: "ATTACK_ENTITY"
   effect:
@@ -215,7 +233,7 @@ identify:
   rarity: "LEGENDARY"
   max_level: 3
   conflicts: []
-  applies_to: [ SWORD, AXE ]
+  applies_to: [ SWORD, AXE, TRIDENT ]
   enchanting_table: { enabled: true, chance_weight: 2 }
   trigger: "ATTACK_ENTITY"
   effect:
@@ -237,7 +255,7 @@ explosive:
   rarity: "EPIC"
   max_level: 1
   conflicts: []
-  applies_to: [ BOW, CROSSBOW ]
+  applies_to: [ BOW, CROSSBOW, TRIDENT ]
   enchanting_table: { enabled: true, chance_weight: 3 }
   trigger: "BOW_SHOOT"
   effect:
@@ -256,7 +274,7 @@ sniper:
   rarity: "EPIC"
   max_level: 5
   conflicts: []
-  applies_to: [ BOW, CROSSBOW ]
+  applies_to: [ BOW, CROSSBOW, TRIDENT ]
   enchanting_table: { enabled: true, chance_weight: 3 }
   trigger: "BOW_SHOOT"
   effect:
@@ -280,7 +298,7 @@ wither:
   rarity: "EPIC"
   max_level: 3
   conflicts: []
-  applies_to: [ SWORD, AXE ]
+  applies_to: [ SWORD, AXE, TRIDENT ]
   enchanting_table: { enabled: true, chance_weight: 4 }
   trigger: "ATTACK_ENTITY"
   effect:
@@ -302,7 +320,7 @@ stun:
   rarity: "RARE"
   max_level: 3
   conflicts: []
-  applies_to: [ SWORD, AXE, BOW, CROSSBOW ]
+  applies_to: [ SWORD, AXE, BOW, CROSSBOW, TRIDENT ]
   enchanting_table: { enabled: true, chance_weight: 5 }
   trigger: "ATTACK_ENTITY, BOW_SHOOT"
   effect:
@@ -314,6 +332,72 @@ stun:
     effects:
       sound: { enabled: true, name: "ENTITY_ZOMBIE_ATTACK_IRON_DOOR", volume: 1.0, pitch: 1.5 }
       particles: { enabled: true, name: "CRIT", count: 15, offset: 0.5 }
+
+# --- НОВІ ЗАЧАРУВАННЯ ДЛЯ ТРИЗУБЦЯ ---
+
+stupor:
+  enabled: true
+  display_name: "&8Ступор"
+  book_display_name: "&8Книга: Ступор"
+  description:
+    - "&fПри попаданні накладає слабкість та уповільнення."
+  rarity: "RARE"
+  max_level: 3
+  conflicts: []
+  applies_to: [ TRIDENT ]
+  enchanting_table: { enabled: true, chance_weight: 5 }
+  trigger: "ATTACK_ENTITY, BOW_SHOOT"
+  effect:
+    type: "POTION"
+    target: "VICTIM"
+    level-1: { chance: 30.0, potion-type: "WEAKNESS", duration-ticks: 60, amplifier: 0 }
+    level-2: { chance: 40.0, potion-type: "WEAKNESS", duration-ticks: 80, amplifier: 1 }
+    level-3: { chance: 50.0, potion-type: "WEAKNESS", duration-ticks: 100, amplifier: 2 }
+    effects:
+      sound: { enabled: true, name: "ENTITY_ILLUSIONER_MIRROR_MOVE", volume: 1.0, pitch: 1.0 }
+      particles: { enabled: true, name: "CRIT_MAGIC", count: 15, offset: 0.5 }
+
+attraction:
+  enabled: true
+  display_name: "&dПритяжение"
+  book_display_name: "&dКнига: Притяжение"
+  description:
+    - "&fПритягує ціль до вас."
+  rarity: "EPIC"
+  max_level: 2
+  conflicts: []
+  applies_to: [ TRIDENT ]
+  enchanting_table: { enabled: true, chance_weight: 3 }
+  trigger: "ATTACK_ENTITY, BOW_SHOOT"
+  effect:
+    type: "ATTRACTION"
+    level-1: { chance: 50.0, strength: 1.0 }
+    level-2: { chance: 75.0, strength: 1.5 }
+    effects:
+      sound: { enabled: true, name: "ENTITY_FISHING_BOBBER_RETRIEVE", volume: 1.0, pitch: 1.0 }
+      particles: { enabled: true, name: "PORTAL", count: 20, offset: 0.5 }
+
+scout:
+  enabled: true
+  display_name: "&bСкаут"
+  book_display_name: "&bКнига: Скаут"
+  description:
+    - "&fПритягує вас до місця падіння тризубця."
+  rarity: "EPIC"
+  max_level: 3
+  conflicts: [ "riptide" ]
+  applies_to: [ TRIDENT ]
+  enchanting_table: { enabled: true, chance_weight: 2 }
+  trigger: "BOW_SHOOT" # Використовуємо цей тригер для кидка тризубця
+  effect:
+    type: "SCOUT"
+    level-1: { max_distance: 30 }
+    level-2: { max_distance: 50 }
+    level-3: { max_distance: 80 }
+    effects:
+      sound: { enabled: true, name: "ENTITY_ENDERMAN_TELEPORT", volume: 1.0, pitch: 1.5 }
+      particles: { enabled: true, name: "REVERSE_PORTAL", count: 30, offset: 0.5 }
+
 
 # --- ЗАЧАРУВАННЯ ДЛЯ БРОНІ ---
 

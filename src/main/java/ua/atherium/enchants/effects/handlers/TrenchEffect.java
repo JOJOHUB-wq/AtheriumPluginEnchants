@@ -13,9 +13,9 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import ua.atherium.AtheriumEnchants;
 import ua.atherium.enchants.effects.EnchantmentEffect;
+import ua.atherium.utils.EffectPlayer;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -30,7 +30,6 @@ public class TrenchEffect implements EnchantmentEffect {
 
         BlockBreakEvent blockBreakEvent = (BlockBreakEvent) event;
         Player player = blockBreakEvent.getPlayer();
-        Block originalBlock = blockBreakEvent.getBlock();
         ItemStack tool = player.getInventory().getItemInMainHand();
 
         if (player.isSneaking() && AtheriumEnchants.getInstance().getConfigManager().getConfig().getBoolean("synergy.disable_area_effects_on_sneak", true)) {
@@ -48,7 +47,7 @@ public class TrenchEffect implements EnchantmentEffect {
         int depth = (Integer.parseInt(shape[2]) - 1) / 2;
 
         List<Block> blocksToBreak = new ArrayList<>();
-        Location center = originalBlock.getLocation();
+        Location center = blockBreakEvent.getBlock().getLocation();
 
         for (int x = -width; x <= width; x++) {
             for (int y = -height; y <= height; y++) {
@@ -63,12 +62,16 @@ public class TrenchEffect implements EnchantmentEffect {
         }
 
         List<ItemStack> totalDrops = (List<ItemStack>) context.get("drops");
+        ConfigurationSection effectsConfig = config.getConfigurationSection("effects");
 
         for (Block block : blocksToBreak) {
             totalDrops.addAll(block.getDrops(tool, player));
             block.setType(Material.AIR);
             damageTool(tool, player);
+            EffectPlayer.play(block.getLocation().add(0.5, 0.5, 0.5), effectsConfig);
         }
+        // Play effect for the original block as well
+        EffectPlayer.play(center.clone().add(0.5, 0.5, 0.5), effectsConfig);
     }
 
     private boolean isBreakable(Block block, ItemStack tool, ConfigurationSection config) {
@@ -81,23 +84,29 @@ public class TrenchEffect implements EnchantmentEffect {
         ConfigurationSection toolTargets = config.getConfigurationSection("tool-targets");
         if (toolTargets == null) return false;
 
-        String TRENCH_PICKAXE = toolType;
-        if (TRENCH_PICKAXE.contains("PICKAXE")) TRENCH_PICKAXE = "PICKAXE";
-        if (TRENCH_PICKAXE.contains("SHOVEL")) TRENCH_PICKAXE = "SHOVEL";
-        if (TRENCH_PICKAXE.contains("AXE")) TRENCH_PICKAXE = "AXE";
+        String resolvedToolType = "";
+        if (toolType.contains("PICKAXE")) {
+            resolvedToolType = "PICKAXE";
+        } else if (toolType.contains("SHOVEL")) {
+            resolvedToolType = "SHOVEL";
+        } else if (toolType.contains("AXE")) {
+            resolvedToolType = "AXE";
+        }
 
-        List<String> allowedMaterials = toolTargets.getStringList(TRENCH_PICKAXE);
+        if (resolvedToolType.isEmpty()) return false;
+
+        List<String> allowedMaterials = toolTargets.getStringList(resolvedToolType);
         return allowedMaterials.contains(blockType);
     }
 
     private void damageTool(ItemStack tool, Player player) {
-        if (tool.getItemMeta() instanceof Damageable) {
-            ItemMeta meta = tool.getItemMeta();
+        if (tool != null && tool.hasItemMeta() && tool.getItemMeta() instanceof Damageable) {
+            Damageable meta = (Damageable) tool.getItemMeta();
             int unbreakingLevel = meta.getEnchantLevel(Enchantment.UNBREAKING);
             if (new Random().nextDouble() <= (1.0 / (unbreakingLevel + 1))) {
-                ((Damageable) meta).setDamage(((Damageable) meta).getDamage() + 1);
+                meta.setDamage(meta.getDamage() + 1);
                 tool.setItemMeta(meta);
-                if (((Damageable) meta).getDamage() >= tool.getType().getMaxDurability()) {
+                if (meta.getDamage() >= tool.getType().getMaxDurability()) {
                     player.getInventory().setItemInMainHand(null);
                     player.playSound(player.getLocation(), "entity.item.break", 1, 1);
                 }
