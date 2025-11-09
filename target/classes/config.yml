@@ -1,0 +1,70 @@
+# Настройки префикса сообщений
+prefix: "&#CC0000&l❖ &#FF6600&lAtherium &f"
+
+# Настройки сообщений
+messages:
+  reload: "%prefix%&aКонфигурация успешно перезагружена."
+  no_permission: "%prefix%&cУ вас нет прав для выполнения этой команды."
+  player_not_found: "%prefix%&cИгрок не найден."
+  enchant_not_found: "%prefix%&cЗачарование '%enchant%' не найдено."
+  enchant_applied: "%prefix%&aЗачарование %enchant% %level% успешно наложено."
+  give_book: "%prefix%&aВы выдали %player% книгу %enchant% %level%."
+  receive_book: "%prefix%&aВы получили книгу %enchant% %level%."
+  item_not_in_hand: "%prefix%&cВы должны держать предмет в руке."
+  enchant_not_applicable: "%prefix%&cЭто зачарование нельзя наложить на этот предмет."
+  enchant_conflict: "%prefix%&cЭто зачарование конфликтует с уже имеющимися."
+
+# Настройки ванильного стола зачарований
+enchanting_table:
+  enabled: true
+  # Шанс (в процентах) заменить ОДНО ванильное зачарование на кастомное.
+  # 0 = выключено. 100 = всегда будет кастомное (если возможно).
+  custom_enchant_chance: 30.0
+
+# Настройки синергии
+synergy:
+  # Если true, Бульдозер/Лесоруб будут ломать доп. блоки, только если игрок НЕ на шифте.
+  disable_area_effects_on_sneak: true
+
+# Рецепты для Авто-Плавка (infernal_touch)
+# Формат: ИСХОДНЫЙ_МАТЕРИАЛ: РЕЗУЛЬТАТ
+smelting-recipes:
+  RAW_IRON: IRON_INGOT
+  RAW_GOLD: GOLD_INGOT
+  RAW_COPPER: COPPER_INGOT
+  IRON_ORE: IRON_INGOT
+  GOLD_ORE: GOLD_INGOT
+  COPPER_ORE: COPPER_INGOT
+  ANCIENT_DEBRIS: NETHERITE_SCRAP
+  SAND: GLASS
+  RED_SAND: GLASS
+  COBBLESTONE: STONE
+  COBBLED_DEEPSLATE: DEEPSLATE
+  CLAY_BALL: BRICK
+  NETHERRACK: NETHER_BRICK
+  OAK_LOG: CHARCOAL
+  SPRUCE_LOG: CHARCOAL
+  BIRCH_LOG: CHARCOAL
+  JUNGLE_LOG: CHARCOAL
+  ACACIA_LOG: CHARCOAL
+  DARK_OAK_LOG: CHARCOAL
+  MANGROVE_LOG: CHARCOAL
+  CHERRY_LOG: CHARCOAL
+  STRIPPED_OAK_LOG: CHARCOAL
+  STRIPPED_SPRUCE_LOG: CHARCOAL
+  STRIPPED_BIRCH_LOG: CHARCOAL
+  STRIPPED_JUNGLE_LOG: CHARCOAL
+  STRIPPED_ACACIA_LOG: CHARCOAL
+  STRIPPED_DARK_OAK_LOG: CHARCOAL
+  STRIPPED_MANGROVE_LOG: CHARCOAL
+  STRIPPED_CHERRY_LOG: CHARCOAL
+  CACTUS: GREEN_DYE
+  WET_SPONGE: SPONGE
+  KELP: DRIED_KELP
+  SEA_PICKLE: LIME_DYE
+
+# --- Інтеграція з WorldGuard ---
+# Вкажіть тут ID регіонів, в яких кастомні зачарування не будуть працювати.
+disabled-regions:
+  - "spawn"
+  - "pvp-arena"

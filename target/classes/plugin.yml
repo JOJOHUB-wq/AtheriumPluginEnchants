@@ -1,0 +1,29 @@
+name: AtheriumEnchants
+version: 1.0
+main: ua.atherium.AtheriumEnchants
+api-version: 1.21
+author: oleze_bebidjonov
+softdepend: [WorldGuard, Vault]
+
+commands:
+  atheriumenchants:
+    description: "Главная команда плагина AtheriumEnchants."
+    aliases: [ate]
+    permission: atherium.base
+
+permissions:
+  atherium.base:
+    description: "Доступ к базовым командам /ate."
+    default: op
+  atherium.reload:
+    description: "Доступ к /ate reload."
+    default: op
+  atherium.menu:
+    description: "Доступ к /ate menu."
+    default: true
+  atherium.give:
+    description: "Доступ к /ate give."
+    default: op
+  atherium.enchant:
+    description: "Доступ к /ate enchant."
+    default: op
