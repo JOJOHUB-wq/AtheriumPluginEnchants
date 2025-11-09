@@ -23,6 +23,7 @@ import ua.atherium.enchants.CustomEnchant;
 import ua.atherium.enchants.EnchantmentTrigger;
 import ua.atherium.managers.EnchantmentManager;
 import ua.atherium.utils.PDCUtils;
+import ua.atherium.utils.WorldGuardIntegration;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -58,6 +59,7 @@ public class GlobalEnchantListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
+        if (!WorldGuardIntegration.getInstance().isAllowed(player)) return;
         ItemStack tool = player.getInventory().getItemInMainHand();
         if (tool == null || tool.getType() == Material.AIR) {
             return;
@@ -103,6 +105,7 @@ public class GlobalEnchantListener implements Listener {
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player)) return;
         Player player = (Player) event.getDamager();
+        if (!WorldGuardIntegration.getInstance().isAllowed(player)) return;
         ItemStack tool = player.getInventory().getItemInMainHand();
         if (tool != null && tool.getType() != Material.AIR) {
             Map<String, Integer> enchantLevels = PDCUtils.getEnchants(tool);
@@ -144,6 +147,7 @@ public class GlobalEnchantListener implements Listener {
             Arrow arrow = (Arrow) event.getEntity();
              if(!(arrow.getShooter() instanceof Player)) return;
              shooter = (Player) arrow.getShooter();
+             if (!WorldGuardIntegration.getInstance().isAllowed(shooter)) return;
              weapon = shooter.getInventory().getItemInMainHand();
         } else {
             Trident trident = (Trident) event.getEntity();
@@ -313,6 +317,7 @@ public class GlobalEnchantListener implements Listener {
     @EventHandler
     public void onFish(PlayerFishEvent event) {
         Player player = event.getPlayer();
+        if (!WorldGuardIntegration.getInstance().isAllowed(player)) return;
         ItemStack tool = player.getInventory().getItemInMainHand();
         if (tool.getType() != Material.FISHING_ROD) return;
 

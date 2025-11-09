@@ -62,3 +62,9 @@ smelting-recipes:
   WET_SPONGE: SPONGE
   KELP: DRIED_KELP
   SEA_PICKLE: LIME_DYE
+
+# --- Інтеграція з WorldGuard ---
+# Вкажіть тут ID регіонів, в яких кастомні зачарування не будуть працювати.
+disabled-regions:
+  - "spawn"
+  - "pvp-arena"

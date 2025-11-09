@@ -65,7 +65,10 @@ public class CustomEnchant {
         return bookDisplayName;
     }
 
-    public List<String> getDescription() {
+    public List<String> getDescription(int level) {
+        if (effectConfig.contains("level-" + level + ".description")) {
+            return effectConfig.getStringList("level-" + level + ".description");
+        }
         return description;
     }
 

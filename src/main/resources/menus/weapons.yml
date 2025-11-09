@@ -33,6 +33,12 @@ items:
   en5: { material: ENCHANTED_BOOK, enchant_key: "wisdom" }
   en6: { material: ENCHANTED_BOOK, enchant_key: "explosive" }
   en7: { material: ENCHANTED_BOOK, enchant_key: "sniper" }
+  en8: { material: ENCHANTED_BOOK, enchant_key: "wither" }
+  en9: { material: ENCHANTED_BOOK, enchant_key: "stun" }
+  en10: { material: ENCHANTED_BOOK, enchant_key: "stupor" }
+  en11: { material: ENCHANTED_BOOK, enchant_key: "attraction" }
+  en12: { material: ENCHANTED_BOOK, enchant_key: "scout" }
+
 
   # --- Оформлення ---
   glass:
@@ -57,6 +63,11 @@ animation:
     - "7: set: en3 22"
     - "8: set: en4 23"
     - "9: set: en5 24"
-    - "10: set: en6 30"
-    - "11: set: en7 31"
-    - "12: set: leave 49"
+    - "10: set: en6 29"
+    - "11: set: en7 30"
+    - "12: set: en8 31"
+    - "13: set: en9 32"
+    - "14: set: en10 33"
+    - "15: set: en11 38"
+    - "16: set: en12 39"
+    - "17: set: leave 49"

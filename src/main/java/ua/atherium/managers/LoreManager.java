@@ -32,14 +32,14 @@ public class LoreManager {
         Map<String, Integer> enchants = PDCUtils.getEnchants(item);
         if (!enchants.isEmpty()) {
             enchants.entrySet().stream()
-                    .map(entry -> {
+                    .forEach(entry -> {
                         CustomEnchant enchant = enchantmentManager.getEnchant(entry.getKey());
-                        if (enchant == null) return null;
-                        String roman = EnchantmentManager.toRoman(entry.getValue());
-                        return ChatUtils.colorize(enchant.getDisplayName() + (roman.isEmpty() ? "" : " " + roman));
-                    })
-                    .filter(line -> line != null && !line.isEmpty())
-                    .forEach(newLore::add);
+                        if (enchant != null) {
+                            String roman = EnchantmentManager.toRoman(entry.getValue());
+                            newLore.add(ChatUtils.colorize(enchant.getDisplayName() + (roman.isEmpty() ? "" : " " + roman)));
+                            newLore.addAll(enchant.getDescription(entry.getValue()).stream().map(ChatUtils::colorize).collect(Collectors.toList()));
+                        }
+                    });
         }
 
         // Add original lore, filtering out old custom enchantments

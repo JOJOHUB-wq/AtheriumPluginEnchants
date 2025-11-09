@@ -56,7 +56,7 @@ public class EnchantmentManager {
 
         ItemStack book = new ItemBuilder(Material.ENCHANTED_BOOK)
                 .setDisplayName(enchant.getBookDisplayName() + " " + toRoman(level))
-                .setLore(enchant.getDescription())
+                .setLore(enchant.getDescription(level))
                 .build();
         PDCUtils.addEnchant(book, enchant.getKey(), level);
         return book;

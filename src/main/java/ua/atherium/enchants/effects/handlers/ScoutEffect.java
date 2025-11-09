@@ -1,6 +1,7 @@
 package ua.atherium.enchants.effects.handlers;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -26,7 +27,7 @@ public class ScoutEffect implements EnchantmentEffect {
 
         // Перевірка на елітри
         ItemStack chestplate = player.getInventory().getChestplate();
-        if (chestplate != null && chestplate.getType() == org.bukkit.Material.ELYTRA && player.isGliding()) {
+        if (chestplate != null && chestplate.getType() == Material.ELYTRA && player.isGliding()) {
             return;
         }
 
@@ -38,10 +39,12 @@ public class ScoutEffect implements EnchantmentEffect {
         double maxDistance = levelConfig.getDouble("max_distance");
         if (player.getLocation().distance(hitLocation) > maxDistance) return;
 
-        // Логіка притягування
-        Vector direction = hitLocation.toVector().subtract(player.getLocation().toVector()).normalize();
-        double strength = config.getDouble("strength_multiplier", 0.6); // 60% сили
-        player.setVelocity(direction.multiply(strength));
+        // Нова логіка притягування
+        double strength = levelConfig.getDouble("strength", 2.8);
+        Vector vector = player.getLocation().getDirection().normalize();
+        vector.multiply(strength);
+        vector.setY(0.6D); // Невеликий підйом, щоб уникнути застрягання
+        player.setVelocity(vector);
 
         EffectPlayer.play(hitLocation, config.getConfigurationSection("effects"));
     }

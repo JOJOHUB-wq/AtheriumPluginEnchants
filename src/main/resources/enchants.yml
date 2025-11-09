@@ -31,7 +31,7 @@ blast_mining:
       AXE: [ NETHER_WART_BLOCK, WARPED_WART_BLOCK, SHROOMLIGHT, MUSHROOM_STEM ]
     effects:
       sound: { enabled: true, name: "BLOCK_STONE_BREAK", volume: 0.8, pitch: 1.5 }
-      particles: { enabled: true, name: "CRIT", count: 20, offset: 1.5 }
+      particles: { enabled: true, name: "FLAME", count: 20, offset: 1.5 }
 timber:
   enabled: true
   display_name: "&#FF2900Л&#FF4200е&#FF5B00с&#FF7300н&#FF8C00и&#FFA500к"
@@ -84,27 +84,49 @@ infernal_touch:
     effects:
       sound: { enabled: true, name: "BLOCK_FURNACE_FIRE_CRACKLE", volume: 1.0, pitch: 1.2 }
       particles: { enabled: true, name: "LAVA", count: 10, offset: 0.5 }
-telekinesis:
+tool_magnet:
   enabled: true
-  display_name: "&#FF2900М&#FF4200а&#FF5B00г&#FF7300н&#FF8C00и&#FFA500т"
+  display_name: "&#FF2900М&#FF4200а&#FF5B00г&#FF7300н&#FF8C00и&#FFA500т (Инструменты)"
   book_display_name: "&#FF2900М&#FF4200а&#FF5B00г&#FF7300н&#FF8C00и&#FFA500т"
   description:
     - ""
-    - "&#FF2900&n▍&r &fИнструмент/Оружие переносит"
-    - "&#FF2900&n▍&r &fигроку в инвентарь выпавшие"
-    - "&#FF2900&n▍&r &fпредметы при копании блоков,"
-    - "&#FF2900▍&r &fа также лут при убийстви моба"
+    - "&#FF2900&n▍&r &fИнструмент переносит игроку"
+    - "&#FF2900&n▍&r &fв инвентарь выпавшие предметы"
     - ""
     - "&#FFDF00П&#FFDF00р&#FFDF00и&#FFDF00м&#FFDF00е&#FFDF00н&#FFDF00и&#FFDF00т&#FFDF00ь &#FFDF00м&#FFDF00о&#FFDF00ж&#FFDF00н&#FFDF00о &#FFDF00н&#FFDF00а&#FFDF00:"
-    - "&e[Кирку/Топор/Лопату/Меч/Лук]"
+    - "&e[Кирку/Топор/Лопату/Мотыгу]"
     - ""
     - "&9Уникальное зачарование"
   rarity: "EPIC"
   max_level: 1
   conflicts: []
-  applies_to: [ PICKAXE, SHOVEL, AXE, SWORD, BOW, HOE ]
+  applies_to: [ PICKAXE, SHOVEL, AXE, HOE ]
   enchanting_table: { enabled: true, chance_weight: 3 }
-  trigger: "BLOCK_BREAK, ATTACK_ENTITY, BOW_SHOOT"
+  trigger: "BLOCK_BREAK"
+  effect:
+    type: "TELEKINESIS"
+    effects:
+      sound: { enabled: true, name: "ENTITY_ENDERMAN_TELEPORT", volume: 0.5, pitch: 1.8 }
+      particles: { enabled: true, name: "PORTAL", count: 15, offset: 0.5 }
+combat_magnet:
+  enabled: true
+  display_name: "&#FF2900М&#FF4200а&#FF5B00г&#FF7300н&#FF8C00и&#FFA500т (Оружие)"
+  book_display_name: "&#FF2900М&#FF4200а&#FF5B00г&#FF7300н&#FF8C00и&#FFA500т"
+  description:
+    - ""
+    - "&#FF2900&n▍&r &fОружие переносит игроку"
+    - "&#FF2900&n▍&r &fв инвентарь выпавший лут"
+    - ""
+    - "&#FFDF00П&#FFDF00р&#FFDF00и&#FFDF00м&#FFDF00е&#FFDF00н&#FFDF00и&#FFDF00т&#FFDF00ь &#FFDF00м&#FFDF00о&#FFDF00ж&#FFDF00н&#FFDF00о &#FFDF00н&#FFDF00а&#FFDF00:"
+    - "&e[Меч/Лук]"
+    - ""
+    - "&9Уникальное зачарование"
+  rarity: "EPIC"
+  max_level: 1
+  conflicts: []
+  applies_to: [ SWORD, BOW ]
+  enchanting_table: { enabled: true, chance_weight: 3 }
+  trigger: "ATTACK_ENTITY, BOW_SHOOT"
   effect:
     type: "TELEKINESIS"
     effects:
@@ -137,24 +159,31 @@ wisdom:
     effects:
       sound: { enabled: true, name: "ENTITY_EXPERIENCE_ORB_PICKUP", volume: 0.7, pitch: 1.0 }
       particles: { enabled: true, name: "ENCHANT", count: 5, offset: 0.5 }
-bog_touch:
+vein_miner:
   enabled: true
-  display_name: "&#f89d57Божественне дотик"
-  book_display_name: "&6Книга: Божественне дотик"
+  display_name: "&6Павутина"
+  book_display_name: "&6Книга: Павутина"
   description:
-    - "&fДозволяє зламати спавнер золотою киркою."
-  rarity: "LEGENDARY"
+    - ""
+    - "&#FF2900&n▍&r &fКирка с этим зачарованием"
+    - "&#FF2900&n▍&r &fвскапывает всю жилу руды"
+    - ""
+    - "&#FFDF00П&#FFDF00р&#FFDF00и&#FFDF00м&#FFDF00е&#FFDF00н&#FFDF00и&#FFDF00т&#FFDF00ь &#FFDF00м&#FFDF00о&#FFDF00ж&#FFDF00н&#FFDF00о &#FFDF00н&#FFDF00а&#FFDF00:"
+    - "&e[Кирку]"
+    - ""
+    - "&9Уникальное зачарование"
+  rarity: "EPIC"
   max_level: 1
-  conflicts: [ silk_touch, blast_mining, infernal_touch ]
-  applies_to: [ GOLDEN_PICKAXE ]
-  enchanting_table: { enabled: false }
+  conflicts: []
+  applies_to: [ PICKAXE ]
+  enchanting_table: { enabled: true, chance_weight: 2 }
   trigger: "BLOCK_BREAK"
   effect:
-    type: "SPAWNER_BREAK"
-    level-1: { durability-cost: 100 }
+    type: "VEIN_MINER"
+    max_blocks: 64
     effects:
-      sound: { enabled: true, name: "BLOCK_ANVIL_DESTROY", volume: 1.0, pitch: 0.5 }
-      particles: { enabled: true, name: "TOTEM", count: 1, offset: 0 }
+      sound: { enabled: true, name: "BLOCK_STONE_BREAK", volume: 1.0, pitch: 1.5 }
+      particles: { enabled: true, name: "FLAME", count: 5, offset: 0.5 }
 pinger:
   enabled: true
   display_name: "&#FF2900П&#FF4200и&#FF5B00н&#FF7300г&#FF8C00е&#FFA500р"
@@ -180,29 +209,3 @@ pinger:
     effects:
       sound: { enabled: true, name: "BLOCK_NOTE_BLOCK_BELL", volume: 1.0, pitch: 1.0 }
       particles: { enabled: false }
-
-vein_miner:
-  enabled: true
-  display_name: "&6Павутина"
-  book_display_name: "&6Книга: Павутина"
-  description:
-    - ""
-    - "&#FF2900&n▍&r &fКирка с этим зачарованием"
-    - "&#FF2900&n▍&r &fвскапывает всю жилу руды"
-    - ""
-    - "&#FFDF00П&#FFDF00р&#FFDF00и&#FFDF00м&#FFDF00е&#FFDF00н&#FFDF00и&#FFDF00т&#FFDF00ь &#FFDF00м&#FFDF00о&#FFDF00ж&#FFDF00н&#FFDF00о &#FFDF00н&#FFDF00а&#FFDF00:"
-    - "&e[Кирку]"
-    - ""
-    - "&9Уникальное зачарование"
-  rarity: "EPIC"
-  max_level: 1
-  conflicts: []
-  applies_to: [ PICKAXE ]
-  enchanting_table: { enabled: true, chance_weight: 2 }
-  trigger: "BLOCK_BREAK"
-  effect:
-    type: "VEIN_MINER"
-    max_blocks: 64
-    effects:
-      sound: { enabled: true, name: "BLOCK_STONE_BREAK", volume: 1.0, pitch: 1.5 }
-      particles: { enabled: true, name: "CRIT", count: 5, offset: 0.5 }

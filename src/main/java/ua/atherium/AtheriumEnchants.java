@@ -18,6 +18,7 @@ import ua.atherium.managers.EnchantmentManager;
 import ua.atherium.managers.GUIManager;
 import ua.atherium.managers.LoreManager;
 import ua.atherium.utils.PDCUtils;
+import ua.atherium.utils.WorldGuardIntegration;
 
 public final class AtheriumEnchants extends JavaPlugin {
 
@@ -37,6 +38,10 @@ public final class AtheriumEnchants extends JavaPlugin {
         enchantmentManager = new EnchantmentManager(this);
         loreManager = new LoreManager(enchantmentManager);
         guiManager = new GUIManager(this);
+
+        if (getServer().getPluginManager().getPlugin("WorldGuard") != null) {
+            new WorldGuardIntegration(this);
+        }
 
         getCommand("atheriumenchants").setExecutor(new CommandManager(this));
         getCommand("atheriumenchants").setTabCompleter(new AteTabCompleter(this));

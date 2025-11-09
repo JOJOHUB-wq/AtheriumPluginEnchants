@@ -112,7 +112,7 @@ public class AnimatedGUI implements InventoryHolder {
             CustomEnchant enchant = enchantmentManager.getEnchant(enchantKey);
             if (enchant == null) return null;
 
-            List<String> lore = new ArrayList<>(enchant.getDescription());
+            List<String> lore = new ArrayList<>(enchant.getDescription(1));
             lore.add(" ");
             lore.add(ChatUtils.colorize("&fЗастосовується до: &e" + String.join(", ", enchant.getAppliesTo())));
             if (!enchant.getConflicts().isEmpty()) {
