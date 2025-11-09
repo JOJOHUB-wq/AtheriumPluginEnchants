@@ -52,6 +52,8 @@ public class EffectFactory {
                 return new AttractionEffect();
             case "SCOUT":
                 return new ScoutEffect();
+            case "VEIN_MINER":
+                return new VeinMinerEffect();
             default:
                 return null;
         }

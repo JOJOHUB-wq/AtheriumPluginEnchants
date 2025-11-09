@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.event.inventory.PrepareGrindstoneEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import ua.atherium.AtheriumEnchants;
@@ -98,6 +99,24 @@ public class IntegrationListener implements Listener {
                 event.setResult(result);
                 event.getInventory().setRepairCost(10);
              }
+        }
+    }
+
+    @EventHandler
+    public void onPrepareGrindstone(PrepareGrindstoneEvent event) {
+        ItemStack upper = event.getInventory().getItem(0);
+        ItemStack lower = event.getInventory().getItem(1);
+        ItemStack result = event.getResult();
+
+        if (result != null && result.getType() != Material.AIR) {
+            Map<String, Integer> enchants = PDCUtils.getEnchants(upper != null ? upper : lower);
+            if (!enchants.isEmpty()) {
+                for (String enchantKey : enchants.keySet()) {
+                    PDCUtils.removeEnchant(result, enchantKey);
+                }
+                plugin.getLoreManager().updateLore(result);
+                event.setResult(result);
+            }
         }
     }
 }

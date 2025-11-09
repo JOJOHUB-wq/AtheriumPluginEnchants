@@ -1,0 +1,62 @@
+# Заголовок меню
+title: "❖ Atherium | Зброя"
+size: 54
+
+items:
+  # --- Навігація ---
+  sword_enchants:
+    display_name: "&#f89d57Зачарования для зброї"
+    lore:
+      - ""
+      - "&fВи знаходитесь в цьому розділі"
+    material: NETHERITE_SWORD
+    item_flags: [ HIDE_ATTRIBUTES ]
+    enchantments: [ "unbreaking;1" ]
+  pickaxe_enchants:
+    display_name: "&#f89d57Зачарования для інструментів"
+    lore: [ "&#FF6600 ➥ Натисніть&#FFFFFF, щоб перейти" ]
+    material: NETHERITE_PICKAXE
+    item_flags: [ HIDE_ATTRIBUTES ]
+    click_actions: [ "[AE_OPEN] tools" ]
+  armor_enchants:
+    display_name: "&#f89d57Зачарования для броні"
+    lore: [ "&#FF6600 ➥ Натисніть&#FFFFFF, щоб перейти" ]
+    material: NETHERITE_CHESTPLATE
+    item_flags: [ HIDE_ATTRIBUTES ]
+    click_actions: [ "[AE_OPEN] armor" ]
+
+  # --- Зачарування (Завантажуються динамічно) ---
+  en1: { material: ENCHANTED_BOOK, enchant_key: "abrasion" }
+  en2: { material: ENCHANTED_BOOK, enchant_key: "vampirizm" }
+  en3: { material: ENCHANTED_BOOK, enchant_key: "toxic" }
+  en4: { material: ENCHANTED_BOOK, enchant_key: "identify" }
+  en5: { material: ENCHANTED_BOOK, enchant_key: "wisdom" }
+  en6: { material: ENCHANTED_BOOK, enchant_key: "explosive" }
+  en7: { material: ENCHANTED_BOOK, enchant_key: "sniper" }
+
+  # --- Оформлення ---
+  glass:
+    display_name: "&7"
+    material: RED_STAINED_GLASS_PANE
+  leave:
+    display_name: "&7Назад"
+    lore: [ "&#FF6600 ➥ Натисніть&#FFFFFF, щоб повернутися назад" ]
+    material: SPECTRAL_ARROW
+    click_actions: [ "[AE_OPEN] main" ]
+
+# Анімація
+animation:
+  base_tick: 1
+  timeline:
+    - "1: set: glass 0,8,1,7,9,17,36,44,45,46,52,53"
+    - "2: set: sword_enchants 12"
+    - "3: set: pickaxe_enchants 13"
+    - "4: set: armor_enchants 14"
+    - "5: set: en1 20"
+    - "6: set: en2 21"
+    - "7: set: en3 22"
+    - "8: set: en4 23"
+    - "9: set: en5 24"
+    - "10: set: en6 30"
+    - "11: set: en7 31"
+    - "12: set: leave 49"
